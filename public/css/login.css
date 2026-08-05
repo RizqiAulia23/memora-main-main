@@ -1,0 +1,572 @@
+﻿/* ============================================================
+   LOGIN PAGE – Memorify
+   Matches design: two-column card, pink left panel with
+   polaroids, white right panel with form.
+   ============================================================ */
+/* Depends on css/base.css */
+
+body {
+  background: var(--pink-50);
+  min-height: 100vh;
+}
+
+/* ============================
+   HEADER
+   ============================ */
+.hdr-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+/* Header action buttons */
+.hdr-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.btn-outline-pink {
+  padding: 10px 22px;
+  border: 1.5px solid var(--pink-200);
+  border-radius: var(--radius-btn);
+  color: var(--pink-600);
+  font-size: 14px;
+  font-weight: 600;
+  background: transparent;
+  transition:
+    background var(--transition),
+    border-color var(--transition);
+  cursor: pointer;
+}
+
+.btn-outline-pink:hover {
+  background: var(--pink-50);
+  border-color: var(--pink-400);
+}
+
+.btn-pink {
+  padding: 10px 22px;
+  border-radius: var(--radius-btn);
+  background: linear-gradient(135deg, var(--pink-500), var(--pink-700));
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(240, 80, 122, 0.35);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
+  cursor: pointer;
+}
+
+.btn-pink:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(240, 80, 122, 0.45);
+}
+
+/* ============================
+   LOGIN PAGE WRAPPER
+   ============================ */
+.login-page {
+  min-height: calc(100vh - 72px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+  background: linear-gradient(
+    160deg,
+    var(--pink-50) 0%,
+    #fde8ef 60%,
+    var(--pink-50) 100%
+  );
+}
+
+/* ============================
+   LOGIN CARD
+   ============================ */
+.login-card {
+  width: 100%;
+  max-width: 900px;
+  min-height: 540px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  background: var(--white);
+}
+
+/* ============================
+   LEFT PANEL
+   ============================ */
+.panel-left {
+  position: relative;
+  background: linear-gradient(145deg, #f08895 0%, #e8607a 40%, #d94e70 100%);
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  min-height: 540px;
+}
+
+/* Floating decorative hearts */
+.deco-heart {
+  position: absolute;
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.45);
+  pointer-events: none;
+  font-family: serif;
+  animation: floatHeart 4s ease-in-out infinite alternate;
+}
+
+.h1 {
+  top: 18%;
+  left: 12%;
+  font-size: 28px;
+  animation-delay: 0s;
+  color: rgba(255, 255, 255, 0.35);
+}
+.h2 {
+  top: 42%;
+  right: 14%;
+  font-size: 18px;
+  animation-delay: 1.2s;
+  color: rgba(255, 255, 255, 0.3);
+}
+.h3 {
+  bottom: 28%;
+  left: 6%;
+  font-size: 36px;
+  animation-delay: 0.7s;
+  color: rgba(255, 255, 255, 0.25);
+}
+.h4 {
+  top: 10%;
+  right: 8%;
+  font-size: 14px;
+  animation-delay: 1.8s;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+@keyframes floatHeart {
+  from {
+    transform: translateY(0) rotate(-5deg);
+  }
+  to {
+    transform: translateY(-10px) rotate(5deg);
+  }
+}
+
+/* Polaroid wrapper */
+.polaroids-wrap {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Individual polaroids */
+.polaroid {
+  position: absolute;
+  background: #fff;
+  padding: 8px 8px 28px 8px;
+  border-radius: 4px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
+}
+
+.polaroid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.pol-tape {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  width: 42px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 2px;
+}
+
+.pol-1 {
+  width: 145px;
+  height: 155px;
+  top: 52px;
+  left: 28px;
+  transform: rotate(-7deg);
+  z-index: 2;
+}
+
+.pol-2 {
+  width: 130px;
+  height: 140px;
+  top: 80px;
+  right: 28px;
+  transform: rotate(6deg);
+  z-index: 1;
+}
+
+.pol-3 {
+  width: 135px;
+  height: 145px;
+  bottom: 115px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  z-index: 3;
+}
+
+.flowers-deco {
+  position: absolute;
+  top: 50px;
+  right: 16px;
+  width: 90px;
+  opacity: 0.75;
+  pointer-events: none;
+}
+
+.flowers-svg {
+  width: 100%;
+  height: auto;
+}
+
+.panel-left-footer {
+  position: relative;
+  z-index: 4;
+  color: #fff;
+}
+
+.heart-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  opacity: 0.9;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.welcome-title {
+  font-family: "Playfair Display", serif;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.welcome-sub {
+  font-size: 13.5px;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+/* ============================
+   RIGHT PANEL
+   ============================ */
+.panel-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 52px;
+  background: var(--white);
+}
+
+.form-wrap {
+  width: 100%;
+  max-width: 360px;
+}
+
+.eyebrow-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 50px;
+  background: var(--pink-50);
+  color: var(--pink-600);
+  font-size: 12.5px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.form-title {
+  font-family: "Playfair Display", serif;
+  font-size: 34px;
+  font-weight: 800;
+  color: var(--ink-900);
+  margin-bottom: 6px;
+  line-height: 1.1;
+}
+
+.form-sub {
+  font-size: 14px;
+  color: var(--ink-600);
+  margin-bottom: 28px;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+.input-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 16px;
+  border: 1.5px solid #f0dde4;
+  border-radius: var(--radius-input);
+  background: #fdfafb;
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition),
+    background var(--transition);
+}
+
+.input-box:focus-within {
+  border-color: var(--pink-500);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(240, 80, 122, 0.1);
+}
+
+.field-icon {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  color: var(--pink-500);
+}
+
+.input-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: "Inter", sans-serif;
+  font-size: 14.5px;
+  color: var(--ink-900);
+}
+
+.input-box input::placeholder {
+  color: var(--ink-400);
+}
+
+.toggle-pass {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  color: var(--ink-400);
+  transition: color var(--transition);
+}
+
+.toggle-pass:hover {
+  color: var(--ink-600);
+}
+
+.toggle-pass svg {
+  width: 17px;
+  height: 17px;
+}
+
+.row-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  font-size: 13px;
+}
+
+.remember-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--ink-600);
+}
+
+.remember-label input[type="checkbox"] {
+  accent-color: var(--pink-600);
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+.remember-text {
+  font-size: 13px;
+}
+
+.forgot-link {
+  color: var(--pink-600);
+  font-weight: 600;
+  font-size: 13px;
+  transition: opacity var(--transition);
+}
+
+.forgot-link:hover {
+  opacity: 0.75;
+}
+
+.btn-login-submit {
+  width: 100%;
+  padding: 14px 24px;
+  border: none;
+  border-radius: var(--radius-btn);
+  background: linear-gradient(135deg, var(--pink-500), var(--pink-700));
+  color: #fff;
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 8px 24px rgba(232, 56, 106, 0.4);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
+  letter-spacing: 0.3px;
+}
+
+.btn-login-submit svg {
+  width: 18px;
+  height: 18px;
+}
+
+.btn-login-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(232, 56, 106, 0.5);
+}
+
+.btn-login-submit:active {
+  transform: translateY(0);
+}
+
+.btn-login-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 22px 0;
+  color: var(--ink-400);
+  font-size: 13px;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #f0e4e8;
+}
+
+.btn-google {
+  width: 100%;
+  padding: 13px 20px;
+  border: 1.5px solid #eee;
+  border-radius: var(--radius-btn);
+  background: var(--white);
+  color: var(--ink-900);
+  font-family: "Inter", sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    border-color var(--transition);
+}
+
+.btn-google:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.09);
+  border-color: #ddd;
+}
+
+.google-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.signup-note {
+  margin-top: 22px;
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--ink-600);
+}
+
+.signup-note a {
+  color: var(--pink-600);
+  font-weight: 700;
+  transition: opacity var(--transition);
+}
+
+.signup-note a:hover {
+  opacity: 0.75;
+}
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+@media (max-width: 780px) {
+  .login-card {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+  }
+
+  .panel-left {
+    min-height: 300px;
+    padding: 36px 32px 40px;
+  }
+
+  .pol-1 {
+    width: 110px;
+    height: 120px;
+    top: 20px;
+    left: 16px;
+  }
+  .pol-2 {
+    width: 100px;
+    height: 110px;
+    top: 40px;
+    right: 16px;
+  }
+  .pol-3 {
+    display: none;
+  }
+
+  .panel-right {
+    padding: 40px 32px;
+  }
+}
+
+@media (max-width: 540px) {
+  .hdr-inner {
+    padding: 0 20px;
+  }
+  .login-page {
+    padding: 24px 12px;
+  }
+  .panel-right {
+    padding: 36px 24px;
+  }
+}

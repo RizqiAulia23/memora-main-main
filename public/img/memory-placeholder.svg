@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff5f7"/>
+      <stop offset="100%" stop-color="#ffe4ea"/>
+    </linearGradient>
+    <linearGradient id="heart" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f472a0"/>
+      <stop offset="100%" stop-color="#e8386a"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <g transform="translate(400 250)">
+    <path d="M0 -60 C-20 -120 -120 -100 -120 -30 C-120 30 -20 90 0 120 C20 90 120 30 120 -30 C120 -100 20 -120 0 -60Z" fill="url(#heart)" opacity="0.9"/>
+    <circle cx="0" cy="0" r="30" fill="#ffffff" opacity="0.9"/>
+  </g>
+  <text x="400" y="420" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700" fill="#e8386a">No Photo</text>
+  <text x="400" y="462" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="400" fill="#f472a0">Every Memory Matters</text>
+</svg>
