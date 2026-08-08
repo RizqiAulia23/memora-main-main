@@ -18,13 +18,17 @@ class MemoryController extends Controller
     {
         $this->authorize('viewAny', Memory::class);
 
+        $favoritesFilter = $request->boolean('favorites');
+
         $memories = $request->user()->memories()
             ->search($request->query('search'))
             ->sort($request->query('sort'))
+            ->when($favoritesFilter, fn ($query) => $query->favorited())
+            ->with(['favorites' => fn ($query) => $query->where('user_id', $request->user()->id)])
             ->paginate(10)
             ->withQueryString();
 
-        return view('memories.index', compact('memories'));
+        return view('memories.index', compact('memories', 'favoritesFilter'));
     }
 
     public function create()

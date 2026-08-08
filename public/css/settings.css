@@ -1,0 +1,149 @@
+/* ============================
+   Settings
+   ============================ */
+.set-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.set-main {
+  min-width: 0;
+}
+
+.set-hint {
+  font-size: 12.5px;
+  color: var(--ink-400);
+  margin-top: 4px;
+}
+
+/* Theme picker */
+.set-theme-options {
+  display: flex;
+  gap: 12px;
+}
+
+.set-theme-option {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid #e8dde3;
+  background: #fff;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink-700);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.set-theme-option input {
+  display: none;
+}
+
+.set-theme-option:hover {
+  border-color: var(--pink-200);
+}
+
+.set-theme-option.selected {
+  border-color: var(--pink-500);
+  background: var(--pink-50);
+  color: var(--pink-700);
+  box-shadow: 0 0 0 3px var(--pink-100);
+}
+
+/* Toggle switch */
+.set-toggle-row {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 0;
+  border-top: 1px solid #f4e6ee;
+  border-bottom: 1px solid #f4e6ee;
+  margin-bottom: 22px;
+}
+
+.set-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.set-switch input {
+  display: none;
+}
+
+.set-switch-track {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-btn);
+  background: #e4d9e2;
+  transition: background var(--transition);
+}
+
+.set-switch-track::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  transition: transform var(--transition);
+}
+
+.set-switch input:checked + .set-switch-track {
+  background: linear-gradient(135deg, var(--pink-500), var(--pink-700));
+}
+
+.set-switch input:checked + .set-switch-track::after {
+  transform: translateX(22px);
+}
+
+/* Storage */
+.set-storage {
+  text-align: center;
+}
+
+.set-storage-bar {
+  height: 10px;
+  border-radius: var(--radius-btn);
+  background: var(--pink-100);
+  overflow: hidden;
+  margin: 12px 0;
+}
+
+.set-storage-bar span {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-btn);
+  background: linear-gradient(90deg, var(--pink-500), var(--purple-500));
+}
+
+/* Danger zone */
+.set-danger {
+  border-color: #f4cfcf;
+}
+
+.set-danger .prof-card-title i {
+  color: #d94f4f;
+}
+
+/* ============================
+   Responsive
+   ============================ */
+@media (max-width: 900px) {
+  .set-layout {
+    grid-template-columns: 1fr;
+  }
+}

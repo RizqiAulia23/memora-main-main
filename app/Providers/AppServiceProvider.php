@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Favorite;
+use App\Models\LoveLetter;
+use App\Models\Memory;
+use App\Observers\DashboardCacheObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Memory::observe(DashboardCacheObserver::class);
+        LoveLetter::observe(DashboardCacheObserver::class);
+        Favorite::observe(DashboardCacheObserver::class);
     }
 }

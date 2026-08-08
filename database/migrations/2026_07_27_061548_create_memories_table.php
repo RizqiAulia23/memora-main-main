@@ -10,23 +10,23 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-{
-    Schema::create('memories', function (Blueprint $table) {
+    {
+        Schema::create('memories', function (Blueprint $table) {
 
-        $table->id();
+            $table->id();
 
-        $table->string('title');
+            $table->string('title');
 
-        $table->text('description');
+            $table->text('description');
 
-        $table->string('image')->nullable();
+            $table->string('image')->nullable();
 
-        $table->date('memory_date');
+            $table->date('memory_date');
 
-        $table->timestamps();
+            $table->timestamps();
 
-    });
-}
+        });
+    }
 
     /**
      * Reverse the migrations.

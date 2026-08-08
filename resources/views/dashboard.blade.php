@@ -41,8 +41,24 @@
         <!-- Welcome Hero -->
         <section class="dash-welcome reveal" aria-label="Welcome message">
           <div class="dash-welcome-content">
-            <h1>Good Morning, {{ auth()->user()->name }} <span class="wave">&#x1F44B;</span></h1>
+            @php
+              $hour = (int) now()->format('G');
+              $greeting = $hour < 12 ? 'Good Morning' : ($hour < 18 ? 'Good Afternoon' : 'Good Evening');
+            @endphp
+            <h1>{{ $greeting }}, {{ auth()->user()->name }} <span class="wave">&#x1F44B;</span></h1>
             <p>Every beautiful memory deserves a safe place to live forever. Let's cherish today together.</p>
+            @if ($anniversary)
+              <div class="dash-anniversary">
+                <i class="fas fa-ring"></i>
+                <span>
+                  @if ($anniversary['days'] === 0)
+                    Today is your anniversary. Happy anniversary!
+                  @else
+                    {{ $anniversary['days'] }} {{ Str::plural('day', $anniversary['days']) }} until your anniversary on {{ $anniversary['label'] }}.
+                  @endif
+                </span>
+              </div>
+            @endif
           </div>
           <div class="dash-welcome-visual">
             <div class="dash-welcome-hearts">
@@ -184,6 +200,68 @@
           </div>
         </div>
 
+        <!-- Latest Gallery + Recent Letters -->
+        <div class="dash-grid" style="grid-template-columns: 1fr 1fr;">
+
+          <!-- Latest Photos -->
+          <section class="dash-section reveal reveal-delay-4" aria-label="Latest photos">
+            <div class="dash-section-header">
+              <h3>Latest Photos</h3>
+              <a href="{{ route('gallery.index') }}">Open Gallery <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="dash-section-body">
+              @if ($latestGallery->isNotEmpty())
+                <div class="dash-gallery-strip">
+                  @foreach ($latestGallery as $memory)
+                    <a href="{{ route('memories.show', $memory) }}" class="dash-gallery-thumb" title="{{ $memory->title }}">
+                      <img src="{{ asset('storage/' . $memory->image) }}" alt="{{ $memory->title }}" loading="lazy" />
+                    </a>
+                  @endforeach
+                </div>
+              @else
+                <div class="dash-empty">
+                  <div class="dash-empty-icon"><i class="fas fa-camera"></i></div>
+                  <p>No photos yet. Add memories with photos to fill your gallery.</p>
+                  <a href="{{ route('memories.create') }}" class="btn btn-primary btn-sm">Add a Photo</a>
+                </div>
+              @endif
+            </div>
+          </section>
+
+          <!-- Recent Letters -->
+          <section class="dash-section reveal reveal-delay-4" aria-label="Recent love letters">
+            <div class="dash-section-header">
+              <h3>Recent Love Letters</h3>
+              <a href="{{ route('letters.index') }}">All Letters <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="dash-section-body">
+              @if ($recentLetters->isNotEmpty())
+                <div class="dash-letter-strip">
+                  @foreach ($recentLetters as $letter)
+                    <a href="{{ route('letters.show', $letter) }}" class="dash-letter-card">
+                      <div class="dash-letter-mood"><i class="{{ $letter->mood->icon() }}"></i></div>
+                      <div>
+                        <div class="dash-letter-title">{{ $letter->title }}</div>
+                        <div class="dash-letter-meta">{{ $letter->letter_date->format('M j, Y') }}</div>
+                      </div>
+                      @if ($letter->is_pinned)
+                        <i class="fas fa-thumbtack dash-letter-pin"></i>
+                      @endif
+                    </a>
+                  @endforeach
+                </div>
+              @else
+                <div class="dash-empty">
+                  <div class="dash-empty-icon"><i class="fas fa-envelope-open-text"></i></div>
+                  <p>No love letters yet. Write your sweetheart a note.</p>
+                  <a href="{{ route('letters.create') }}" class="btn btn-primary btn-sm">Write a Letter</a>
+                </div>
+              @endif
+            </div>
+          </section>
+
+        </div>
+
         <!-- Bottom Row: Quick Actions + Activity -->
         <div class="dash-grid" style="grid-template-columns: 1fr 1fr;">
 
@@ -198,17 +276,17 @@
                   <div class="dash-action-icon pink"><i class="fas fa-plus"></i></div>
                   <span class="dash-action-text">Add Memory</span>
                 </a>
-                <a href="{{ route('memories.create') }}" class="dash-action-btn">
+                <a href="{{ route('gallery.index') }}" class="dash-action-btn">
                   <div class="dash-action-icon purple"><i class="fas fa-cloud-upload-alt"></i></div>
-                  <span class="dash-action-text">Upload Photos</span>
+                  <span class="dash-action-text">Gallery</span>
                 </a>
-                <a href="#" class="dash-action-btn">
+                <a href="{{ route('letters.create') }}" class="dash-action-btn">
                   <div class="dash-action-icon peach"><i class="fas fa-feather-alt"></i></div>
                   <span class="dash-action-text">Write Letter</span>
                 </a>
-                <a href="{{ route('memories.create') }}" class="dash-action-btn">
+                <a href="{{ route('timeline.index') }}" class="dash-action-btn">
                   <div class="dash-action-icon teal"><i class="fas fa-stream"></i></div>
-                  <span class="dash-action-text">Create Timeline</span>
+                  <span class="dash-action-text">Timeline</span>
                 </a>
               </div>
             </div>
@@ -245,6 +323,8 @@
     </main>
 
   </div>
+
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
   <script src="{{ asset('js/main.js') }}"></script>
   <script src="{{ asset('js/dashboard.js') }}"></script>

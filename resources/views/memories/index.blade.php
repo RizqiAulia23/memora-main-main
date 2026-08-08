@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
   <title>Memories - Memorify</title>
   <meta name="description" content="Browse and manage your memories." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -48,18 +49,23 @@
             <i class="fas fa-search"></i>
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by title or description..." aria-label="Search memories" />
           </form>
-          <form class="mem-filter" action="{{ route('memories.index') }}" method="GET">
-            <input type="hidden" name="search" value="{{ request('search') }}" />
+          <div class="mem-filter">
             <label for="sort" class="mem-filter-label">Sort by</label>
             <select id="sort" name="sort" class="mem-filter-select" onchange="this.form.submit()">
               <option value="newest" {{ request('sort') === 'newest' ? 'selected' : '' }}>Newest</option>
               <option value="oldest" {{ request('sort') === 'oldest' ? 'selected' : '' }}>Oldest</option>
               <option value="memory_date" {{ request('sort') === 'memory_date' ? 'selected' : '' }}>Memory Date</option>
             </select>
-            @if (request('search') || request('sort'))
+            <a href="{{ route('memories.index', array_merge(request()->except('favorites'), ['favorites' => $favoritesFilter ? 0 : 1])) }}"
+               class="mem-filter-chip {{ $favoritesFilter ? 'active' : '' }}"
+               data-filter-favorites>
+              <i class="fas {{ $favoritesFilter ? 'fa-heart' : 'fa-heart-o' }}"></i>
+              {{ $favoritesFilter ? 'All Memories' : 'Favorites' }}
+            </a>
+            @if (request('search') || request('sort') || $favoritesFilter)
               <a href="{{ route('memories.index') }}" class="mem-filter-clear"><i class="fas fa-times"></i> Clear</a>
             @endif
-          </form>
+          </div>
         </section>
 
         <!-- Memories Grid -->
@@ -70,6 +76,14 @@
                 <article class="dash-memory-card" onclick="window.location='{{ route('memories.show', $memory) }}'">
                   <div class="dash-memory-img">
                     <img src="{{ $memory->image ? asset('storage/' . $memory->image) : asset('img/memory-placeholder.svg') }}" alt="{{ $memory->title }}" loading="lazy" />
+                    <button type="button"
+                            class="mem-card-fav {{ $memory->favorites->isNotEmpty() ? 'active' : '' }}"
+                            data-favorite-toggle
+                            data-url="{{ route('favorites.toggle', $memory) }}"
+                            aria-label="Toggle favorite"
+                            onclick="event.stopPropagation()">
+                      <i class="fas fa-heart"></i>
+                    </button>
                     <span class="mem-card-actions">
                       <a href="{{ route('memories.edit', $memory) }}" class="mem-card-btn" aria-label="Edit memory" onclick="event.stopPropagation()"><i class="fas fa-pen"></i></a>
                       <form method="POST" action="{{ route('memories.destroy', $memory) }}" class="mem-card-form" onsubmit="return confirm('Delete this memory?');" onclick="event.stopPropagation()">
@@ -92,7 +106,15 @@
             <div class="dash-section mem-empty">
               <div class="dash-empty">
                 <div class="dash-empty-icon"><i class="fas fa-images"></i></div>
-                <p>{{ request('search') ? 'No memories found for "' . e(request('search')) . '".' : 'No memories yet. Start preserving your beautiful moments today.' }}</p>
+                <p>
+                  @if ($favoritesFilter)
+                    You have not favorited any memories yet.
+                  @elseif (request('search'))
+                    No memories found for "{{ e(request('search')) }}".
+                  @else
+                    No memories yet. Start preserving your beautiful moments today.
+                  @endif
+                </p>
                 <a href="{{ route('memories.create') }}" class="btn btn-primary btn-sm">Add Your First Memory</a>
               </div>
             </div>

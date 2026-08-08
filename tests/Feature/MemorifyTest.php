@@ -218,8 +218,11 @@ class MemorifyTest extends TestCase
 
         $response = $this->actingAs($user)->get('/dashboard');
 
+        $hour = (int) now()->format('G');
+        $greeting = $hour < 12 ? 'Good Morning' : ($hour < 18 ? 'Good Afternoon' : 'Good Evening');
+
         $response->assertOk();
-        $response->assertSee('Good Morning');
+        $response->assertSee($greeting);
         $response->assertSee($user->name);
     }
 

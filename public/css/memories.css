@@ -118,6 +118,37 @@
   background: var(--pink-50);
 }
 
+.mem-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-btn);
+  border: 1.5px solid #e8dde3;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-600);
+  transition: all var(--transition);
+}
+
+.mem-filter-chip:hover {
+  border-color: var(--pink-200);
+  color: var(--pink-600);
+}
+
+.mem-filter-chip.active {
+  background: linear-gradient(135deg, var(--pink-500), var(--pink-700));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(232, 58, 110, 0.3);
+}
+
+.fav-head-icon {
+  color: var(--pink-600);
+  margin-right: 4px;
+}
+
 /* ============================
    Card actions overlay
    ============================ */

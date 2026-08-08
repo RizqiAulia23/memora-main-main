@@ -1096,3 +1096,140 @@
     font-size: 26px;
   }
 }
+
+/* ============================
+   Anniversary banner
+   ============================ */
+.dash-anniversary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--pink-500), var(--pink-700));
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 600;
+  box-shadow: var(--shadow-pink);
+}
+
+/* ============================
+   Gallery strip (dashboard)
+   ============================ */
+.dash-gallery-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.dash-gallery-thumb {
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  position: relative;
+}
+
+.dash-gallery-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition);
+}
+
+.dash-gallery-thumb:hover img {
+  transform: scale(1.08);
+}
+
+/* ============================
+   Letter strip (dashboard)
+   ============================ */
+.dash-letter-strip {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dash-letter-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--pink-50);
+  border: 1px solid var(--pink-100);
+  transition: all var(--transition);
+}
+
+.dash-letter-card:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow-soft);
+}
+
+.dash-letter-mood {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--pink-100);
+  color: var(--pink-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+
+.dash-letter-title {
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--ink-900);
+}
+
+.dash-letter-meta {
+  font-size: 11.5px;
+  color: var(--ink-400);
+  margin-top: 2px;
+}
+
+.dash-letter-pin {
+  margin-left: auto;
+  color: var(--pink-400);
+  font-size: 13px;
+}
+
+/* ============================
+   Avatar fallbacks
+   ============================ */
+.dash-sidebar-avatar-fallback,
+.dash-topbar-avatar-fallback,
+.prof-avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink-500), var(--purple-500));
+  color: #fff;
+  font-weight: 700;
+}
+
+.dash-sidebar-avatar-fallback {
+  width: 38px;
+  height: 38px;
+  font-size: 15px;
+}
+
+.dash-topbar-avatar-fallback {
+  width: 36px;
+  height: 36px;
+  font-size: 14px;
+  border-radius: 50%;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.prof-avatar-fallback {
+  width: 110px;
+  height: 110px;
+  font-size: 42px;
+  border-radius: 50%;
+}

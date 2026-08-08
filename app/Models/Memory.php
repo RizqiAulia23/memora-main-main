@@ -3,11 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Memory extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id',
         'title',
@@ -28,6 +32,11 @@ class Memory extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
     public function scopeSearch(Builder $query, ?string $search): Builder
     {
         return $query->when($search, function (Builder $query, string $search) {
@@ -45,5 +54,25 @@ class Memory extends Model
             'memory_date' => $query->orderByDesc('memory_date'),
             default => $query->latest('created_at'),
         };
+    }
+
+    public function scopeFavorited(Builder $query): Builder
+    {
+        return $query->whereHas('favorites', fn (Builder $q) => $q->where('user_id', auth()->id()));
+    }
+
+    public function scopeWithImage(Builder $query): Builder
+    {
+        return $query->whereNotNull('image');
+    }
+
+    public function scopeForUser(Builder $query, User $user): Builder
+    {
+        return $query->where('user_id', $user->id);
+    }
+
+    public function isFavoritedBy(?User $user): bool
+    {
+        return $user !== null && $user->isFavorite($this);
     }
 }

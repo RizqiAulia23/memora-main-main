@@ -1,6 +1,7 @@
 @php
     $active = $activeSidebar ?? 'dashboard';
     $memoryCount = auth()->user()->memories()->count();
+    $avatarUrl = auth()->user()->avatarUrl();
 @endphp
 <aside class="dash-sidebar" id="dash-sidebar" aria-label="Sidebar navigation">
   <div class="dash-sidebar-logo">
@@ -13,35 +14,35 @@
     <a href="{{ route('dashboard') }}" class="dash-sidebar-link {{ $active === 'dashboard' ? 'active' : '' }}">
       <i class="fas fa-th-large"></i> Dashboard
     </a>
-    <a href="{{ route('memories.index') }}" class="dash-sidebar-link {{ $active === 'memories' ? 'active' : '' }}">
+    <a href="{{ route('memories.index') }}" class="dash-sidebar-link {{ in_array($active, ['memories', 'memories.show', 'memories.edit']) ? 'active' : '' }}">
       <i class="fas fa-images"></i> Memories
       @if ($memoryCount > 0)
         <span class="badge">{{ $memoryCount }}</span>
       @endif
     </a>
-    <a href="#" class="dash-sidebar-link">
+    <a href="{{ route('timeline.index') }}" class="dash-sidebar-link {{ $active === 'timeline' ? 'active' : '' }}">
       <i class="fas fa-stream"></i> Timeline
     </a>
-    <a href="#" class="dash-sidebar-link">
+    <a href="{{ route('favorites.index') }}" class="dash-sidebar-link {{ $active === 'favorites' ? 'active' : '' }}">
       <i class="fas fa-heart"></i> Favorites
     </a>
-    <a href="#" class="dash-sidebar-link">
+    <a href="{{ route('letters.index') }}" class="dash-sidebar-link {{ in_array($active, ['letters', 'letters.show', 'letters.create', 'letters.edit']) ? 'active' : '' }}">
       <i class="fas fa-envelope-open-text"></i> Love Letters
     </a>
-    <a href="#" class="dash-sidebar-link">
-      <i class="fas fa-box-open"></i> Photobox
+    <a href="{{ route('gallery.index') }}" class="dash-sidebar-link {{ $active === 'gallery' ? 'active' : '' }}">
+      <i class="fas fa-camera-retro"></i> Gallery
     </a>
 
     <div class="dash-sidebar-section">Tools</div>
-    <a href="#" class="dash-sidebar-link">
+    <a href="{{ route('calendar.index') }}" class="dash-sidebar-link {{ $active === 'calendar' ? 'active' : '' }}">
       <i class="fas fa-calendar-alt"></i> Calendar
     </a>
 
     <div class="dash-sidebar-section">Account</div>
-    <a href="#" class="dash-sidebar-link">
+    <a href="{{ route('profile.show') }}" class="dash-sidebar-link {{ $active === 'profile' ? 'active' : '' }}">
       <i class="fas fa-user-circle"></i> Profile
     </a>
-    <a href="#" class="dash-sidebar-link">
+    <a href="{{ route('settings.index') }}" class="dash-sidebar-link {{ $active === 'settings' ? 'active' : '' }}">
       <i class="fas fa-cog"></i> Settings
     </a>
   </nav>
@@ -54,7 +55,11 @@
       </button>
     </form>
     <div class="dash-sidebar-user">
-      <img src="https://i.pravatar.cc/80?img=32" alt="User avatar" />
+      @if ($avatarUrl)
+        <img src="{{ $avatarUrl }}" alt="User avatar" />
+      @else
+        <div class="dash-sidebar-avatar-fallback">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
+      @endif
       <div class="dash-sidebar-user-info">
         <div class="dash-sidebar-user-name">{{ auth()->user()->name }}</div>
         <div class="dash-sidebar-user-email">{{ auth()->user()->email }}</div>

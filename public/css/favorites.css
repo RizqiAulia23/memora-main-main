@@ -1,0 +1,15 @@
+/* ============================
+   Favorites page
+   ============================ */
+.fav-head-icon {
+  animation: fav-beat 1.6s ease-in-out infinite;
+}
+
+@keyframes fav-beat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+}
+
+.fav-empty-heart {
+  color: var(--pink-200);
+}
