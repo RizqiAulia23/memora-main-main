@@ -148,7 +148,10 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch(endpoint + '/instant?q=' + encodeURIComponent(q), {
           headers: { 'X-Requested-With': 'XMLHttpRequest' }
         })
-          .then(function (res) { return res.json(); })
+          .then(function (res) {
+            if (!res.ok) throw new Error('Request failed');
+            return res.json();
+          })
           .then(function (data) {
             resultsBox.innerHTML = data.html;
             resultsBox.hidden = false;

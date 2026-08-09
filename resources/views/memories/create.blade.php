@@ -36,6 +36,8 @@
           </a>
         </section>
 
+        @include('partials.flash-alerts')
+
         @if ($errors->any())
           <div class="dash-alert mem-alert-error">
             <i class="fas fa-exclamation-circle"></i>

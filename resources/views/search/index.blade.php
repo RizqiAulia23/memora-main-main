@@ -25,6 +25,8 @@
 
       <div class="dash-content">
 
+        @include('partials.flash-alerts')
+
         <!-- Page Header -->
         <section class="mem-head reveal">
           <div>

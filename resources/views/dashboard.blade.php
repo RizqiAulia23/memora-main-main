@@ -32,17 +32,7 @@
       <!-- Dashboard Content -->
       <div class="dash-content">
 
-        @if (session('success'))
-          <div class="dash-alert dash-alert-success">
-            <i class="fas fa-check-circle"></i> {{ session('success') }}
-          </div>
-        @endif
-
-        @if (session('error'))
-          <div class="dash-alert dash-alert-error">
-            <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
-          </div>
-        @endif
+        @include('partials.flash-alerts')
 
         <!-- Welcome Hero -->
         <section class="dash-welcome reveal" aria-label="Welcome message">

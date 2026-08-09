@@ -26,17 +26,7 @@
 
       <div class="dash-content">
 
-        @if (session('success'))
-          <div class="dash-alert dash-alert-success">
-            <i class="fas fa-check-circle"></i> {{ session('success') }}
-          </div>
-        @endif
-
-        @if (session('error'))
-          <div class="dash-alert dash-alert-error">
-            <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
-          </div>
-        @endif
+        @include('partials.flash-alerts')
 
         <!-- Page Header -->
         <section class="mem-head reveal">

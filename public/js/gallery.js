@@ -94,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
         loading = true;
         var nextUrl = loadEl.getAttribute('data-next');
         if (!nextUrl) {
+          loading = false;
           hasMore = false;
           loadEl.hidden = true;
           return;

@@ -34,6 +34,8 @@
           <a href="{{ route('letters.index') }}" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Back to Letters</a>
         </section>
 
+        @include('partials.flash-alerts')
+
         <section class="letter-form-wrap reveal reveal-delay-1">
           <form method="POST" action="{{ route('letters.store') }}" class="letter-form">
             @csrf
