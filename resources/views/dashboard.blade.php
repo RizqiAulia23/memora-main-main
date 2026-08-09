@@ -38,6 +38,12 @@
           </div>
         @endif
 
+        @if (session('error'))
+          <div class="dash-alert dash-alert-error">
+            <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+          </div>
+        @endif
+
         <!-- Welcome Hero -->
         <section class="dash-welcome reveal" aria-label="Welcome message">
           <div class="dash-welcome-content">

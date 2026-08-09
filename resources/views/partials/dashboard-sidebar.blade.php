@@ -1,6 +1,6 @@
 @php
     $active = $activeSidebar ?? 'dashboard';
-    $memoryCount = auth()->user()->memories()->count();
+    $memoryCount = $memoryCount ?? 0;
     $avatarUrl = auth()->user()->avatarUrl();
 @endphp
 <aside class="dash-sidebar" id="dash-sidebar" aria-label="Sidebar navigation">

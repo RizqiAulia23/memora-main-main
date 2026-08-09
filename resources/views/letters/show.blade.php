@@ -31,6 +31,12 @@
           </div>
         @endif
 
+        @if (session('error'))
+          <div class="dash-alert dash-alert-error">
+            <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+          </div>
+        @endif
+
         <!-- Letter Header -->
         <section class="letter-head reveal">
           <div class="letter-head-left">

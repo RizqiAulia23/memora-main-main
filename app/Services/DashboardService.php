@@ -49,9 +49,12 @@ class DashboardService
         return $user->loveLetters()->pinnedFirst()->take($take)->get();
     }
 
-    public function timeline(User $user): Collection
+    public function timeline(User $user, int $take = 8): Collection
     {
-        return $user->memories()->orderBy('memory_date')->get();
+        return $user->memories()
+            ->orderBy('memory_date')
+            ->limit($take)
+            ->get(['id', 'title', 'memory_date']);
     }
 
     public function activity(User $user, int $take = 8): Collection

@@ -99,7 +99,10 @@ document.addEventListener('DOMContentLoaded', function () {
           return;
         }
         fetch(nextUrl, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-          .then(function (res) { return res.json(); })
+          .then(function (res) {
+            if (!res.ok) throw new Error('Request failed');
+            return res.json();
+          })
           .then(function (data) {
             grid.insertAdjacentHTML('beforeend', data.html);
             loadEl.setAttribute('data-next', data.nextUrl || '');
@@ -107,7 +110,12 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!hasMore) loadEl.hidden = true;
             loading = false;
           })
-          .catch(function () { loading = false; });
+          .catch(function () {
+            loading = false;
+            hasMore = false;
+            loadEl.hidden = true;
+            showToast('Could not load more photos. Please try again.', 'error');
+          });
       }
     });
   }

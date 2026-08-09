@@ -989,6 +989,12 @@
   border: 1px solid rgba(58, 174, 111, 0.2);
 }
 
+.dash-alert-error {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid rgba(185, 28, 28, 0.2);
+}
+
 /* ============================
    Empty States
    ============================ */

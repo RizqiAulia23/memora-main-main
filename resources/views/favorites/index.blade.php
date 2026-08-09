@@ -33,6 +33,12 @@
           </div>
         @endif
 
+        @if (session('error'))
+          <div class="dash-alert dash-alert-error">
+            <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+          </div>
+        @endif
+
         <!-- Page Header -->
         <section class="mem-head reveal">
           <div>

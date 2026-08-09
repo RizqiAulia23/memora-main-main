@@ -6,6 +6,7 @@ use App\Models\Favorite;
 use App\Models\LoveLetter;
 use App\Models\Memory;
 use App\Observers\DashboardCacheObserver;
+use App\Services\DashboardService;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -32,6 +33,14 @@ class AppServiceProvider extends ServiceProvider
             $user = auth()->user();
 
             $view->with('theme', $user?->settings?->theme ?? 'light');
+        });
+
+        View::composer('partials.dashboard-sidebar', function ($view) {
+            $user = auth()->user();
+
+            if ($user) {
+                $view->with('memoryCount', app(DashboardService::class)->stats($user)['total_memories']);
+            }
         });
     }
 }

@@ -157,6 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
           })
           .catch(function () {
             hideResults();
+            showToast('Search failed. Please try again.', 'error');
           });
       }, 250);
     });
