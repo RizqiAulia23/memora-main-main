@@ -6,6 +6,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.querySelectorAll('[data-cal-day]').forEach(function (day) {
     day.addEventListener('click', function () {
+      document.querySelectorAll('[data-cal-day]').forEach(function (d) {
+        d.classList.remove('selected');
+        d.removeAttribute('aria-pressed');
+      });
+      day.classList.add('selected');
+      day.setAttribute('aria-pressed', 'true');
+
+      details.innerHTML =
+        '<div class="cal-details-empty cal-details-loading"><i class="fas fa-circle-o-notch fa-spin"></i><p>Loading memories&hellip;</p></div>';
+
       var date = day.getAttribute('data-date');
       fetch(endpoint + '?date=' + encodeURIComponent(date), {
         headers: { 'X-Requested-With': 'XMLHttpRequest' }

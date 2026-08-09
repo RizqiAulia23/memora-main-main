@@ -111,6 +111,15 @@
   font-weight: 600;
   color: var(--ink-900);
   margin-top: 2px;
+  min-width: 0;
+}
+
+.timeline-item-card {
+  min-width: 0;
+}
+
+.timeline-item-info {
+  min-width: 0;
 }
 
 /* ============================

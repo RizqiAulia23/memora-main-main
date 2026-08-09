@@ -48,7 +48,10 @@
             <div class="letter-list">
               @foreach ($letters as $letter)
                 <article class="letter-card {{ $letter->is_pinned ? 'pinned' : '' }} reveal">
-                  <div class="letter-card-mood" title="{{ $letter->mood->label() }}">
+                  @if ($letter->is_pinned)
+                    <span class="letter-pin-badge-top"><i class="fas fa-thumbtack"></i> Pinned</span>
+                  @endif
+                  <div class="letter-card-mood {{ $letter->mood->value }}" title="{{ $letter->mood->label() }}">
                     <i class="{{ $letter->mood->icon() }}"></i>
                   </div>
                   <div class="letter-card-body">

@@ -94,7 +94,9 @@
                     </span>
                   </div>
                   <div class="dash-memory-info">
-                    <div class="dash-memory-title">{{ $memory->title }}</div>
+                    <a href="{{ route('memories.show', $memory) }}" class="dash-memory-title-link">
+                      <div class="dash-memory-title">{{ $memory->title }}</div>
+                    </a>
                     <div class="dash-memory-meta">
                       <span><i class="fas fa-calendar"></i> {{ $memory->memory_date->format('M j, Y') }}</span>
                     </div>

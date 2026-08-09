@@ -459,12 +459,62 @@ img {
 }
 
 /* ============================
+   Focus visibility (accessibility)
+   ============================ */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--pink-400);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.btn:focus-visible,
+.btn-sm:focus-visible,
+.btn-outline:focus-visible,
+.dash-sidebar-link:focus-visible,
+.dash-topbar-btn:focus-visible,
+.dash-mobile-menu-btn:focus-visible,
+.mem-card-fav:focus-visible,
+.mem-card-btn:focus-visible,
+.mem-page:focus-visible,
+.mem-filter-chip:focus-visible,
+.mem-filter-clear:focus-visible,
+.cal-day:focus-visible,
+.cal-nav:focus-visible,
+.timeline-year:focus-visible,
+.letter-btn:focus-visible,
+.letter-pin:focus-visible,
+.set-theme-option:focus-visible,
+.set-switch:focus-visible,
+.gal-item:focus-visible,
+.gal-download:focus-visible,
+.gal-lightbox-close:focus-visible,
+.gal-lightbox-nav:focus-visible,
+.social-btn:focus-visible {
+  outline: 2px solid var(--pink-400);
+  outline-offset: 2px;
+}
+
+/* ============================
    Buttons – danger
    ============================ */
 .btn-danger {
   background: linear-gradient(135deg, #ef4444, #b91c1c);
   color: #fff;
   box-shadow: 0 8px 24px rgba(185, 28, 28, 0.3);
+}
+
+.btn[disabled],
+.btn-sm[disabled],
+.btn:disabled,
+.btn-sm:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 .btn-danger:hover {
@@ -722,6 +772,10 @@ select.form-control {
   color: var(--dt-text);
 }
 
+[data-theme="dark"] :focus-visible {
+  outline-color: var(--pink-400);
+}
+
 [data-theme="dark"] .dash-layout {
   background: var(--dt-bg);
 }
@@ -757,7 +811,7 @@ select.form-control {
   border-color: var(--dt-border);
 }
 
-[data-theme="dark"] .dash-sidebar-user:hover {
+[data-theme="dark"] .dash-sidebar-user-link:hover {
   background: var(--dt-surface-2);
 }
 
@@ -917,6 +971,11 @@ select.form-control {
   color: var(--dt-text);
 }
 
+[data-theme="dark"] .dash-memory-title-link:hover .dash-memory-title,
+[data-theme="dark"] .dash-memory-title-link:focus-visible .dash-memory-title {
+  color: var(--pink-400);
+}
+
 [data-theme="dark"] .dash-letter-card {
   background: var(--dt-surface);
   border-color: var(--dt-border);
@@ -965,6 +1024,25 @@ select.form-control {
   background: var(--dt-surface-3);
   border-color: var(--dt-border);
   color: var(--dt-text);
+}
+
+[data-theme="dark"] .mem-card-actions {
+  color: var(--dt-text);
+}
+
+[data-theme="dark"] .mem-card-btn {
+  background: rgba(28, 24, 35, 0.85);
+  color: var(--dt-text-muted);
+}
+
+[data-theme="dark"] .mem-card-btn:hover {
+  background: var(--dt-surface-2);
+  color: var(--pink-400);
+}
+
+[data-theme="dark"] .mem-card-btn-danger:hover {
+  background: var(--dt-danger-bg);
+  color: var(--dt-danger-text);
 }
 
 [data-theme="dark"] .mem-form-label {
@@ -1057,6 +1135,11 @@ select.form-control {
 
 [data-theme="dark"] .letter-pin-badge {
   color: var(--pink-400);
+}
+
+[data-theme="dark"] .letter-pin-badge-top {
+  background: linear-gradient(135deg, var(--pink-500), var(--pink-700));
+  color: #fff;
 }
 
 [data-theme="dark"] .letter-btn {
@@ -1181,6 +1264,24 @@ select.form-control {
 
 [data-theme="dark"] .cal-day.today {
   outline-color: var(--pink-500);
+}
+
+[data-theme="dark"] .cal-day.selected {
+  background: var(--pink-600);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(232, 56, 106, 0.35);
+}
+
+[data-theme="dark"] .cal-day.selected .cal-day-heart {
+  color: #fff;
+}
+
+[data-theme="dark"] .cal-day.has-memory:hover:not(.selected) {
+  background: #3d2431;
+}
+
+[data-theme="dark"] .cal-day.selected:hover {
+  background: var(--pink-500);
 }
 
 [data-theme="dark"] .cal-details-desc,

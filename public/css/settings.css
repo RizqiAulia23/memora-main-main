@@ -39,10 +39,25 @@
   color: var(--ink-700);
   cursor: pointer;
   transition: all var(--transition);
+  position: relative;
 }
 
 .set-theme-option input {
-  display: none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+  opacity: 0;
+}
+
+.set-theme-option:has(input:focus-visible) {
+  border-color: var(--pink-400);
+  box-shadow: 0 0 0 3px var(--pink-100);
 }
 
 .set-theme-option:hover {
@@ -78,7 +93,21 @@
 }
 
 .set-switch input {
-  display: none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+  opacity: 0;
+}
+
+.set-switch input:focus-visible + .set-switch-track {
+  outline: 2px solid var(--pink-400);
+  outline-offset: 2px;
 }
 
 .set-switch-track {

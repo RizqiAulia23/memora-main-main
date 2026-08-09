@@ -55,15 +55,17 @@
       </button>
     </form>
     <div class="dash-sidebar-user">
-      @if ($avatarUrl)
-        <img src="{{ $avatarUrl }}" alt="User avatar" />
-      @else
-        <div class="dash-sidebar-avatar-fallback">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
-      @endif
-      <div class="dash-sidebar-user-info">
-        <div class="dash-sidebar-user-name">{{ auth()->user()->name }}</div>
-        <div class="dash-sidebar-user-email">{{ auth()->user()->email }}</div>
-      </div>
+      <a href="{{ route('profile.show') }}" class="dash-sidebar-user-link" aria-label="View profile">
+        @if ($avatarUrl)
+          <img src="{{ $avatarUrl }}" alt="User avatar" />
+        @else
+          <div class="dash-sidebar-avatar-fallback">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
+        @endif
+        <div class="dash-sidebar-user-info">
+          <div class="dash-sidebar-user-name">{{ auth()->user()->name }}</div>
+          <div class="dash-sidebar-user-email">{{ auth()->user()->email }}</div>
+        </div>
+      </a>
     </div>
   </div>
 </aside>

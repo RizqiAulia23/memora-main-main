@@ -129,13 +129,21 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 12px;
   border-radius: var(--radius-sm);
-  cursor: pointer;
   transition: background var(--transition-fast);
 }
 
-.dash-sidebar-user:hover {
+.dash-sidebar-user-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  width: 100%;
+  color: inherit;
+}
+
+.dash-sidebar-user-link:hover {
   background: var(--pink-50);
 }
 
@@ -214,6 +222,7 @@
 
 .dash-search {
   flex: 1;
+  min-width: 0;
   max-width: 420px;
   position: relative;
 }
@@ -255,6 +264,7 @@
   align-items: center;
   gap: 8px;
   margin-left: auto;
+  flex-shrink: 0;
 }
 
 .dash-topbar-btn {
@@ -309,6 +319,9 @@
 .dash-content {
   flex: 1;
   padding: 28px 32px 48px;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 /* ============================
@@ -511,6 +524,24 @@
   margin-bottom: 28px;
 }
 
+.dash-grid-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.dash-grid-split > .dash-section {
+  min-width: 0;
+}
+
+.dash-sidebar-col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
 /* ============================
    Section Card
    ============================ */
@@ -570,6 +601,7 @@
   transition: all var(--transition);
   cursor: pointer;
   background: var(--white);
+  min-width: 0;
 }
 
 .dash-memory-card:hover {
@@ -631,6 +663,17 @@
   font-weight: 600;
   color: var(--ink-900);
   margin-bottom: 6px;
+}
+
+.dash-memory-title-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.dash-memory-title-link:hover .dash-memory-title,
+.dash-memory-title-link:focus-visible .dash-memory-title {
+  color: var(--pink-600);
 }
 
 .dash-memory-meta {
@@ -1020,6 +1063,10 @@
     grid-template-columns: 1fr;
   }
 
+  .dash-grid-split {
+    grid-template-columns: 1fr;
+  }
+
   .dash-stats {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1082,6 +1129,11 @@
 
   .dash-memories-grid {
     grid-template-columns: 1fr;
+  }
+
+  .dash-gallery-strip {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
   }
 
   .dash-actions-grid {
@@ -1178,6 +1230,13 @@
   justify-content: center;
   font-size: 15px;
 }
+
+.dash-letter-mood.happy { background: var(--teal-100); color: var(--teal-500); }
+.dash-letter-mood.romantic { background: var(--purple-100); color: var(--purple-500); }
+.dash-letter-mood.nostalgic { background: var(--peach-100); color: var(--peach-500); }
+.dash-letter-mood.grateful { background: var(--green-100); color: var(--green-500); }
+.dash-letter-mood.thoughtful { background: var(--teal-100); color: var(--teal-500); }
+.dash-letter-mood.missing { background: var(--purple-100); color: var(--purple-500); }
 
 .dash-letter-title {
   font-weight: 600;

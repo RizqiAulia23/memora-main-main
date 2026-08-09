@@ -27,15 +27,29 @@ document.addEventListener('DOMContentLoaded', function () {
   var sidebar = document.getElementById('dash-sidebar');
   var overlay = document.getElementById('dash-sidebar-overlay');
 
-  if (sidebarBtn && sidebar && overlay) {
+  function closeSidebar() {
+    if (!sidebar) return;
+    sidebar.classList.remove('open');
+    if (overlay) overlay.classList.remove('active');
+    if (sidebarBtn) sidebarBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  if (sidebarBtn && sidebar) {
     sidebarBtn.addEventListener('click', function () {
-      sidebar.classList.toggle('open');
-      overlay.classList.toggle('active');
+      var isOpen = sidebar.classList.toggle('open');
+      if (overlay) overlay.classList.toggle('active', isOpen);
+      sidebarBtn.setAttribute('aria-expanded', String(isOpen));
     });
-    overlay.addEventListener('click', function () {
-      sidebar.classList.remove('open');
-      overlay.classList.remove('active');
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+        closeSidebar();
+        sidebarBtn.focus();
+      }
     });
+  }
+
+  if (overlay) {
+    overlay.addEventListener('click', closeSidebar);
   }
 
   // Favorite toggle (AJAX)
@@ -110,6 +124,13 @@ document.addEventListener('DOMContentLoaded', function () {
     function showLoading() {
       resultsBox.innerHTML = '<div class="search-suggest-loading"><i class="fas fa-circle-o-notch fa-spin"></i> Searching&hellip;</div>';
       resultsBox.hidden = false;
+      input.setAttribute('aria-expanded', 'true');
+    }
+
+    function hideResults() {
+      resultsBox.hidden = true;
+      activeIndex = -1;
+      input.setAttribute('aria-expanded', 'false');
     }
 
     input.addEventListener('input', function () {
@@ -118,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
       activeIndex = -1;
 
       if (q.length < 2) {
-        resultsBox.hidden = true;
+        hideResults();
         return;
       }
 
@@ -132,16 +153,17 @@ document.addEventListener('DOMContentLoaded', function () {
             resultsBox.innerHTML = data.html;
             resultsBox.hidden = false;
             activeIndex = -1;
+            input.setAttribute('aria-expanded', 'true');
           })
           .catch(function () {
-            resultsBox.hidden = true;
+            hideResults();
           });
       }, 250);
     });
 
     document.addEventListener('click', function (e) {
       if (!searchForm.contains(e.target)) {
-        resultsBox.hidden = true;
+        hideResults();
       }
     });
 
@@ -149,8 +171,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (resultsBox.hidden) return;
 
       if (e.key === 'Escape') {
-        resultsBox.hidden = true;
-        activeIndex = -1;
+        hideResults();
         return;
       }
 

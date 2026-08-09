@@ -8,6 +8,7 @@
 }
 
 .letter-card {
+  position: relative;
   display: flex;
   gap: 16px;
   padding: 20px;
@@ -16,6 +17,22 @@
   border: 1px solid #f0e7ed;
   box-shadow: var(--shadow-card);
   transition: all var(--transition);
+}
+
+.letter-pin-badge-top {
+  position: absolute;
+  top: -1px;
+  left: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  background: linear-gradient(135deg, var(--pink-500), var(--pink-700));
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
 }
 
 .letter-card:hover {
@@ -245,6 +262,48 @@
   color: var(--pink-700);
   font-size: 12.5px;
   font-weight: 600;
+}
+
+.letter-mood-badge.happy,
+.letter-card-mood.happy {
+  background: var(--teal-100);
+  color: var(--teal-500);
+}
+
+.letter-mood-badge.love,
+.letter-card-mood.love {
+  background: var(--pink-100);
+  color: var(--pink-600);
+}
+
+.letter-mood-badge.romantic,
+.letter-card-mood.romantic {
+  background: var(--purple-100);
+  color: var(--purple-500);
+}
+
+.letter-mood-badge.nostalgic,
+.letter-card-mood.nostalgic {
+  background: var(--peach-100);
+  color: var(--peach-500);
+}
+
+.letter-mood-badge.grateful,
+.letter-card-mood.grateful {
+  background: var(--green-100);
+  color: var(--green-500);
+}
+
+.letter-mood-badge.thoughtful,
+.letter-card-mood.thoughtful {
+  background: var(--teal-100);
+  color: var(--teal-500);
+}
+
+.letter-mood-badge.missing,
+.letter-card-mood.missing {
+  background: var(--purple-100);
+  color: var(--purple-500);
 }
 
 .letter-title {

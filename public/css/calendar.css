@@ -87,6 +87,23 @@
   cursor: pointer;
 }
 
+.cal-day.selected {
+  background: var(--pink-600);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(232, 56, 106, 0.3);
+}
+
+.cal-day.selected .cal-day-heart,
+.cal-day.selected.has-memory:hover .cal-day-heart {
+  color: #fff;
+}
+
+.cal-day.selected:hover {
+  background: var(--pink-600);
+  color: #fff;
+  transform: scale(1.04);
+}
+
 .cal-day.has-memory:hover {
   background: var(--pink-100);
   transform: scale(1.04);
@@ -178,6 +195,10 @@
   color: var(--ink-400);
   font-size: 13.5px;
   padding: 40px 10px;
+}
+
+.cal-details-loading i {
+  color: var(--pink-400);
 }
 
 .cal-details-empty i {

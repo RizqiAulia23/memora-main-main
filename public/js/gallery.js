@@ -25,11 +25,14 @@ document.addEventListener('DOMContentLoaded', function () {
     lightboxLink.href = item.getAttribute('data-url') || '#';
     lightbox.hidden = false;
     document.body.style.overflow = 'hidden';
+    var closeBtn = lightbox.querySelector('[data-lightbox-close]');
+    if (closeBtn) closeBtn.focus();
   }
 
   function closeLightbox() {
     lightbox.hidden = true;
     document.body.style.overflow = '';
+    if (grid) grid.focus({ preventScroll: true });
   }
 
   function step(delta) {
@@ -47,6 +50,14 @@ document.addEventListener('DOMContentLoaded', function () {
     grid.addEventListener('click', function (e) {
       var item = e.target.closest('[data-gallery-item]');
       if (!item) return;
+      var index = Array.prototype.indexOf.call(grid.querySelectorAll('[data-gallery-item]'), item);
+      openLightbox(index);
+    });
+    grid.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      var item = e.target.closest('[data-gallery-item]');
+      if (!item) return;
+      e.preventDefault();
       var index = Array.prototype.indexOf.call(grid.querySelectorAll('[data-gallery-item]'), item);
       openLightbox(index);
     });

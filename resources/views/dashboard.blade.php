@@ -115,7 +115,9 @@
                         <img src="{{ $memory->imageUrl() }}" alt="{{ $memory->title }}" loading="lazy" />
                       </div>
                       <div class="dash-memory-info">
-                        <div class="dash-memory-title">{{ $memory->title }}</div>
+                        <a href="{{ route('memories.show', $memory) }}" class="dash-memory-title-link">
+                          <div class="dash-memory-title">{{ $memory->title }}</div>
+                        </a>
                         <div class="dash-memory-meta">
                           <span><i class="fas fa-calendar"></i> {{ $memory->memory_date->format('M j, Y') }}</span>
                         </div>
@@ -134,7 +136,7 @@
           </section>
 
           <!-- Right Sidebar Column -->
-          <div class="dash-sidebar-col" style="display:flex;flex-direction:column;gap:24px;">
+          <div class="dash-sidebar-col">
 
             <!-- Timeline Preview -->
             <section class="dash-section reveal reveal-delay-3" aria-label="Timeline preview">
@@ -201,7 +203,7 @@
         </div>
 
         <!-- Latest Gallery + Recent Letters -->
-        <div class="dash-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="dash-grid-split">
 
           <!-- Latest Photos -->
           <section class="dash-section reveal reveal-delay-4" aria-label="Latest photos">
@@ -239,7 +241,7 @@
                 <div class="dash-letter-strip">
                   @foreach ($recentLetters as $letter)
                     <a href="{{ route('letters.show', $letter) }}" class="dash-letter-card">
-                      <div class="dash-letter-mood"><i class="{{ $letter->mood->icon() }}"></i></div>
+                      <div class="dash-letter-mood {{ $letter->mood->value }}"><i class="{{ $letter->mood->icon() }}"></i></div>
                       <div>
                         <div class="dash-letter-title">{{ $letter->title }}</div>
                         <div class="dash-letter-meta">{{ $letter->letter_date->format('M j, Y') }}</div>
@@ -263,7 +265,7 @@
         </div>
 
         <!-- Bottom Row: Quick Actions + Activity -->
-        <div class="dash-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="dash-grid-split">
 
           <!-- Quick Actions -->
           <section class="dash-section reveal reveal-delay-4" aria-label="Quick actions">

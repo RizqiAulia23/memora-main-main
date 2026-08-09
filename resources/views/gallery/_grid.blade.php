@@ -1,9 +1,9 @@
 @foreach ($photos as $memory)
-  <figure class="gal-item reveal" data-gallery-item data-title="{{ $memory->title }}" data-date="{{ $memory->memory_date->format('M j, Y') }}" data-src="{{ $memory->imageUrl() }}" data-url="{{ route('memories.show', $memory) }}">
+  <figure class="gal-item reveal" data-gallery-item data-title="{{ $memory->title }}" data-date="{{ $memory->memory_date->format('M j, Y') }}" data-src="{{ $memory->imageUrl() }}" data-url="{{ route('memories.show', $memory) }}" tabindex="0" role="button" aria-label="Open photo: {{ $memory->title }}">
     <img src="{{ $memory->imageUrl() }}" alt="{{ $memory->title }}" loading="lazy" />
     <figcaption>
       <span>{{ $memory->title }}</span>
-      <a href="{{ route('gallery.download', $memory) }}" class="gal-download" aria-label="Download" title="Download"><i class="fas fa-download"></i></a>
+      <a href="{{ route('gallery.download', $memory) }}" class="gal-download" aria-label="Download {{ $memory->title }}" title="Download"><i class="fas fa-download"></i></a>
     </figcaption>
   </figure>
 @endforeach
