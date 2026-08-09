@@ -8,6 +8,8 @@ use App\Services\AccountService;
 use App\Services\StorageService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class SettingsController extends Controller
@@ -21,7 +23,13 @@ class SettingsController extends Controller
     {
         $user = auth()->user();
         $settings = $user->getSettings();
-        $storageUsed = $this->storage->formatBytes($this->storage->usageForUser($user));
+        $storageUsed = $this->storage->formatBytes(
+            Cache::remember(
+                'storage.usage.'.$user->id,
+                now()->addMinutes(5),
+                fn () => $this->storage->usageForUser($user),
+            ),
+        );
 
         return view('settings.index', compact('user', 'settings', 'storageUsed'));
     }
@@ -43,9 +51,19 @@ class SettingsController extends Controller
     {
         $user = $request->user();
 
-        Auth::logout();
+        try {
+            $this->account->delete($user);
+            Cache::forget('storage.usage.'.$user->id);
+        } catch (\Throwable $exception) {
+            Log::warning('deleteAccount failed: '.$exception->getMessage());
 
-        $this->account->delete($user);
+            return redirect()->route('settings.index')->with('error', 'We could not delete your account right now. Please try again.');
+        }
+
+        // Prevent the guarded user's remember token from re-saving the already deleted row.
+        $user->remember_token = null;
+
+        Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

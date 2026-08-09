@@ -89,17 +89,40 @@ document.addEventListener('DOMContentLoaded', function () {
     var input = searchForm.querySelector('[data-global-search-input]');
     var resultsBox = searchForm.querySelector('[data-global-search-results]');
     var timer = null;
+    var activeIndex = -1;
     var endpoint = searchForm.getAttribute('action') || '/search';
+
+    function resultsLinks() {
+      return Array.prototype.slice.call(resultsBox.querySelectorAll('a'));
+    }
+
+    function setActive(index) {
+      var links = resultsLinks();
+      activeIndex = index;
+      links.forEach(function (link, i) {
+        link.classList.toggle('active', i === activeIndex);
+      });
+      if (links[activeIndex]) {
+        links[activeIndex].focus({ preventScroll: true });
+      }
+    }
+
+    function showLoading() {
+      resultsBox.innerHTML = '<div class="search-suggest-loading"><i class="fas fa-circle-o-notch fa-spin"></i> Searching&hellip;</div>';
+      resultsBox.hidden = false;
+    }
 
     input.addEventListener('input', function () {
       var q = input.value.trim();
       clearTimeout(timer);
+      activeIndex = -1;
 
       if (q.length < 2) {
         resultsBox.hidden = true;
         return;
       }
 
+      showLoading();
       timer = setTimeout(function () {
         fetch(endpoint + '/instant?q=' + encodeURIComponent(q), {
           headers: { 'X-Requested-With': 'XMLHttpRequest' }
@@ -108,6 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
           .then(function (data) {
             resultsBox.innerHTML = data.html;
             resultsBox.hidden = false;
+            activeIndex = -1;
           })
           .catch(function () {
             resultsBox.hidden = true;
@@ -122,8 +146,30 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.addEventListener('keydown', function (e) {
+      if (resultsBox.hidden) return;
+
       if (e.key === 'Escape') {
         resultsBox.hidden = true;
+        activeIndex = -1;
+        return;
+      }
+
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter') {
+        var links = resultsLinks();
+        if (!links.length) return;
+
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          setActive(Math.min(activeIndex + 1, links.length - 1));
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          setActive(Math.max(activeIndex - 1, 0));
+        } else if (e.key === 'Enter') {
+          if (activeIndex >= 0 && links[activeIndex]) {
+            e.preventDefault();
+            links[activeIndex].click();
+          }
+        }
       }
     });
   }

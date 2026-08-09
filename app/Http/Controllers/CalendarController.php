@@ -19,9 +19,19 @@ class CalendarController extends Controller
     {
         $this->authorize('viewAny', Memory::class);
 
-        $month = $request->query('month')
-            ? Carbon::createFromFormat('Y-m', (string) $request->query('month'))->startOfMonth()
-            : now()->startOfMonth();
+        $month = now()->startOfMonth();
+
+        if ($request->query('month')) {
+            try {
+                $parsed = Carbon::createFromFormat('Y-m', (string) $request->query('month'))->startOfMonth();
+
+                if ($parsed instanceof Carbon) {
+                    $month = $parsed;
+                }
+            } catch (\Throwable) {
+                // Invalid month falls back to the current month.
+            }
+        }
 
         $days = $this->dashboard->calendar($request->user(), $month);
 
@@ -31,6 +41,7 @@ class CalendarController extends Controller
             'yearMonth' => $month->format('Y-m'),
             'prevMonth' => $month->copy()->subMonth()->format('Y-m'),
             'nextMonth' => $month->copy()->addMonth()->format('Y-m'),
+            'hasMemories' => $request->user()->memories()->exists(),
         ]);
     }
 
@@ -38,7 +49,16 @@ class CalendarController extends Controller
     {
         $this->authorize('viewAny', Memory::class);
 
-        $date = Carbon::parse((string) $request->query('date'))->startOfDay();
+        if (! $request->query('date')) {
+            return response()->json(['message' => 'The date is required.'], 422);
+        }
+
+        try {
+            $date = Carbon::createFromFormat('Y-m-d', (string) $request->query('date'))->startOfDay();
+        } catch (\Throwable) {
+            return response()->json(['message' => 'The date format is invalid.'], 422);
+        }
+
         $memories = $this->dashboard->memoriesOnDate($request->user(), $date);
 
         return response()->json([

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="{{ $theme }}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -55,7 +55,7 @@
                       <div class="timeline-item-dot"></div>
                       <a href="{{ route('memories.show', $memory) }}" class="timeline-item-card">
                         @if ($memory->image)
-                          <img src="{{ asset('storage/' . $memory->image) }}" alt="{{ $memory->title }}" loading="lazy" />
+                          <img src="{{ $memory->imageUrl() }}" alt="{{ $memory->title }}" loading="lazy" />
                         @endif
                         <div class="timeline-item-info">
                           <div class="timeline-item-date">{{ $memory->memory_date->format('F j, Y') }}</div>

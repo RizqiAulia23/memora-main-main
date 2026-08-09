@@ -66,13 +66,10 @@ class Memory extends Model
         return $query->whereNotNull('image');
     }
 
-    public function scopeForUser(Builder $query, User $user): Builder
+    public function imageUrl(): string
     {
-        return $query->where('user_id', $user->id);
-    }
-
-    public function isFavoritedBy(?User $user): bool
-    {
-        return $user !== null && $user->isFavorite($this);
+        return $this->image
+            ? route('memories.image', $this)
+            : asset('img/memory-placeholder.svg');
     }
 }

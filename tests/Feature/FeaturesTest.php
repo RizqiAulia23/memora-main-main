@@ -105,10 +105,10 @@ class FeaturesTest extends TestCase
 
     public function test_user_can_download_a_photo(): void
     {
-        Storage::fake('public');
+        Storage::fake('private');
         $user = User::factory()->create();
         $memory = $this->createMemory($user, ['image' => 'memories/photo.png']);
-        Storage::disk('public')->put('memories/photo.png', 'img');
+        Storage::disk('private')->put('memories/photo.png', 'img');
 
         $response = $this->actingAs($user)->get("/gallery/{$memory->id}/download");
 
@@ -274,7 +274,7 @@ class FeaturesTest extends TestCase
 
     public function test_user_can_update_profile(): void
     {
-        Storage::fake('public');
+        Storage::fake('private');
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->put('/profile', [
@@ -299,14 +299,14 @@ class FeaturesTest extends TestCase
 
     public function test_user_can_remove_avatar(): void
     {
-        Storage::fake('public');
+        Storage::fake('private');
         $user = User::factory()->create(['avatar' => 'avatars/old.png']);
-        Storage::disk('public')->put('avatars/old.png', 'img');
+        Storage::disk('private')->put('avatars/old.png', 'img');
 
         $this->actingAs($user)->delete('/profile/avatar')->assertRedirect();
 
         $this->assertNull($user->fresh()->avatar);
-        Storage::disk('public')->assertMissing('avatars/old.png');
+        Storage::disk('private')->assertMissing('avatars/old.png');
     }
 
     public function test_user_can_change_password(): void
@@ -360,10 +360,10 @@ class FeaturesTest extends TestCase
 
     public function test_user_can_delete_account_with_password(): void
     {
-        Storage::fake('public');
+        Storage::fake('private');
         $user = User::factory()->create(['password' => bcrypt('password123')]);
         $memory = $this->createMemory($user, ['image' => 'memories/photo.png']);
-        Storage::disk('public')->put('memories/photo.png', 'img');
+        Storage::disk('private')->put('memories/photo.png', 'img');
 
         $response = $this->actingAs($user)->delete('/settings/account', [
             'password' => 'password123',
@@ -373,7 +373,7 @@ class FeaturesTest extends TestCase
         $this->assertGuest();
         $this->assertDatabaseMissing('users', ['id' => $user->id]);
         $this->assertDatabaseMissing('memories', ['id' => $memory->id]);
-        Storage::disk('public')->assertMissing('memories/photo.png');
+        Storage::disk('private')->assertMissing('memories/photo.png');
     }
 
     public function test_account_deletion_requires_correct_password(): void
@@ -406,5 +406,163 @@ class FeaturesTest extends TestCase
         foreach (['/favorites', '/gallery', '/letters', '/timeline', '/calendar', '/search', '/profile', '/settings'] as $path) {
             $this->get($path)->assertRedirect('/login');
         }
+    }
+
+    public function test_calendar_is_graceful_with_invalid_month(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get('/calendar?month=not-a-date');
+
+        $response->assertOk();
+        $response->assertSee(now()->format('F Y'));
+    }
+
+    public function test_calendar_date_rejects_invalid_date(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->getJson('/calendar/date?date=banana')
+            ->assertStatus(422);
+    }
+
+    public function test_calendar_shows_empty_state_when_no_memories(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get('/calendar');
+
+        $response->assertOk();
+        $response->assertSee('Your calendar is still quiet');
+        $response->assertSee('Add Your First Memory');
+    }
+
+    public function test_search_no_results_shows_empty_state_with_cta(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get('/search?q=zzzzz_not_found');
+
+        $response->assertOk();
+        $response->assertSee('No results found');
+        $response->assertSee('Browse All Memories');
+    }
+
+    public function test_unauthenticated_missing_route_returns_custom_404(): void
+    {
+        $response = $this->get('/this-route-does-not-exist');
+
+        $response->assertStatus(404);
+        $response->assertSee('Page Not Found');
+    }
+
+    public function test_love_letter_content_strips_dangerous_styles_but_keeps_safe_ones(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->post('/letters', [
+            'title' => 'Styled letter',
+            'content' => '<p style="background-image:url(javascript:alert(1))">Hello</p><p style="color:red">Still red</p>',
+            'mood' => 'love',
+            'letter_date' => '2024-12-15',
+        ])->assertRedirect('/letters/1');
+
+        $content = LoveLetter::first()->content;
+
+        $this->assertStringNotContainsString('url(', $content);
+        $this->assertStringNotContainsString('javascript:', $content);
+        $this->assertStringContainsString('Still red', $content);
+    }
+
+    public function test_theme_persists_globally_across_pages(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+        $user->settings()->create(['theme' => 'dark', 'notifications_enabled' => true]);
+
+        $this->actingAs($user)->get('/dashboard')->assertSee('<html lang="en" data-theme="dark">', false);
+        $this->actingAs($user)->get('/memories')->assertSee('<html lang="en" data-theme="dark">', false);
+        $this->actingAs($user)->get('/timeline')->assertSee('<html lang="en" data-theme="dark">', false);
+    }
+
+    public function test_love_letter_index_is_paginated(): void
+    {
+        $user = User::factory()->create();
+
+        for ($i = 1; $i <= 12; $i++) {
+            $this->createLetter($user, ['title' => 'Letter '.$i]);
+        }
+
+        $response = $this->actingAs($user)->get('/letters');
+
+        $response->assertOk();
+        $response->assertSee('Letter 1');
+        $response->assertDontSee('Letter 11');
+        $response->assertSee('pagination');
+    }
+
+    public function test_memory_image_is_served_only_to_owner(): void
+    {
+        Storage::fake('private');
+
+        $owner = User::factory()->create();
+        $intruder = User::factory()->create();
+        $memory = $this->createMemory($owner, ['image' => 'memories/photo.png']);
+        Storage::disk('private')->put('memories/photo.png', 'img');
+
+        $this->get("/memories/{$memory->id}/image")->assertRedirect('/login');
+        $this->actingAs($owner)->get("/memories/{$memory->id}/image")->assertOk();
+        $this->actingAs($intruder)->get("/memories/{$memory->id}/image")->assertForbidden();
+    }
+
+    public function test_avatar_is_served_only_to_owner(): void
+    {
+        Storage::fake('private');
+
+        $owner = User::factory()->create(['avatar' => 'avatars/me.png']);
+        $other = User::factory()->create();
+        Storage::disk('private')->put('avatars/me.png', 'img');
+
+        $this->get("/users/{$owner->id}/avatar")->assertRedirect('/login');
+
+        $this->actingAs($owner)->get("/users/{$owner->id}/avatar")->assertOk();
+    }
+
+    public function test_login_endpoint_is_rate_limited(): void
+    {
+        $user = User::factory()->create(['password' => bcrypt('password123')]);
+
+        for ($i = 0; $i < 10; $i++) {
+            $this->post('/login', [
+                'email' => $user->email,
+                'password' => 'wrong-password',
+            ]);
+        }
+
+        $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'password123',
+        ])->assertTooManyRequests();
+    }
+
+    public function test_register_endpoint_is_rate_limited(): void
+    {
+        for ($i = 0; $i < 5; $i++) {
+            $this->post('/register', [
+                'name' => 'Test '.$i,
+                'email' => "user{$i}@memorify.com",
+                'password' => 'password123',
+                'password_confirmation' => 'password123',
+            ]);
+        }
+
+        $this->post('/register', [
+            'name' => 'Blocked',
+            'email' => 'blocked@memorify.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ])->assertTooManyRequests();
     }
 }

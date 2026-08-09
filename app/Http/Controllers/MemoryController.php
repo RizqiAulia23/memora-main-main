@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateMemoryRequest;
 use App\Models\Memory;
 use App\Services\MemoryImageService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MemoryController extends Controller
 {
@@ -93,5 +94,14 @@ class MemoryController extends Controller
 
         return redirect()->route('memories.index')
             ->with('success', 'Memory deleted successfully.');
+    }
+
+    public function image(Memory $memory)
+    {
+        $this->authorize('view', $memory);
+
+        abort_if(! $memory->image, 404);
+
+        return Storage::disk('private')->response($memory->image);
     }
 }

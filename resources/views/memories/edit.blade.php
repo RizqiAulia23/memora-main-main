@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="{{ $theme }}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -106,7 +106,7 @@
                   class="mem-form-input mem-form-file {{ $errors->has('image') ? 'mem-form-input-error' : '' }}"
                 />
                 <div class="mem-preview" id="image-preview" @if (!$memory->image) hidden @endif>
-                  <img src="{{ $memory->image ? asset('storage/' . $memory->image) : '' }}" alt="Current photo" />
+                  <img src="{{ $memory->imageUrl() }}" alt="Current photo" />
                 </div>
               </div>
 

@@ -21,6 +21,7 @@ class DashboardCacheObserver
     {
         if (isset($model->user_id)) {
             Cache::forget(DashboardService::cacheKey($model->user_id));
+            Cache::forget('storage.usage.'.$model->user_id);
         }
     }
 }

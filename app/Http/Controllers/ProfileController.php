@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UpdateProfileRequest;
+use App\Models\User;
 use App\Services\ProfileService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -42,5 +44,14 @@ class ProfileController extends Controller
         $request->user()->update(['password' => $request->validated('password')]);
 
         return back()->with('success', 'Your password has been updated.');
+    }
+
+    public function avatar(User $user)
+    {
+        abort_unless(auth()->id() === $user->id, 403);
+
+        abort_if(! $user->avatar, 404);
+
+        return Storage::disk('private')->response($user->avatar);
     }
 }

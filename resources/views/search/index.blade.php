@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="{{ $theme }}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -51,6 +51,10 @@
               <div class="dash-empty">
                 <div class="dash-empty-icon"><i class="fas fa-search"></i></div>
                 <p>Type above to search across your memories, photos, and love letters.</p>
+                <div class="dash-empty-actions">
+                  <a href="{{ route('memories.index') }}" class="btn btn-outline btn-sm"><i class="fas fa-images"></i> Browse Memories</a>
+                  <a href="{{ route('letters.index') }}" class="btn btn-outline btn-sm"><i class="fas fa-envelope-open-text"></i> View Letters</a>
+                </div>
               </div>
             </div>
           @endif

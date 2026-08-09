@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="{{ $theme }}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -86,6 +86,12 @@
                 <p>No love letters yet. Pour your heart onto the page.</p>
                 <a href="{{ route('letters.create') }}" class="btn btn-primary btn-sm">Write Your First Letter</a>
               </div>
+            </div>
+          @endif
+
+          @if ($letters->hasPages())
+            <div class="mem-pagination-wrap">
+              {{ $letters->links('vendor.pagination.memorify') }}
             </div>
           @endif
         </section>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="{{ $theme }}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -112,7 +112,7 @@
                   @foreach ($recentMemories as $memory)
                     <article class="dash-memory-card" onclick="window.location='{{ route('memories.show', $memory) }}'">
                       <div class="dash-memory-img">
-                        <img src="{{ $memory->image ? asset('storage/' . $memory->image) : asset('img/memory-placeholder.svg') }}" alt="{{ $memory->title }}" loading="lazy" />
+                        <img src="{{ $memory->imageUrl() }}" alt="{{ $memory->title }}" loading="lazy" />
                       </div>
                       <div class="dash-memory-info">
                         <div class="dash-memory-title">{{ $memory->title }}</div>
@@ -214,7 +214,7 @@
                 <div class="dash-gallery-strip">
                   @foreach ($latestGallery as $memory)
                     <a href="{{ route('memories.show', $memory) }}" class="dash-gallery-thumb" title="{{ $memory->title }}">
-                      <img src="{{ asset('storage/' . $memory->image) }}" alt="{{ $memory->title }}" loading="lazy" />
+                      <img src="{{ $memory->imageUrl() }}" alt="{{ $memory->title }}" loading="lazy" />
                     </a>
                   @endforeach
                 </div>

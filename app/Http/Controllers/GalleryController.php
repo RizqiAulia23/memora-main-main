@@ -37,6 +37,6 @@ class GalleryController extends Controller
 
         $name = Str::slug($memory->title).'.'.pathinfo($memory->image, PATHINFO_EXTENSION);
 
-        return Storage::disk('public')->download($memory->image, $name);
+        return Storage::disk('private')->download($memory->image, $name);
     }
 }

@@ -85,6 +85,6 @@ class User extends Authenticatable
             return null;
         }
 
-        return asset('storage/'.$this->avatar);
+        return route('user.avatar', $this);
     }
 }

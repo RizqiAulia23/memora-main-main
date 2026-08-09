@@ -20,7 +20,10 @@ class LoveLetterController extends Controller
     {
         $this->authorize('viewAny', LoveLetter::class);
 
-        $letters = auth()->user()->loveLetters()->pinnedFirst()->get();
+        $letters = auth()->user()->loveLetters()
+            ->pinnedFirst()
+            ->paginate(10)
+            ->withQueryString();
 
         return view('letters.index', compact('letters'));
     }

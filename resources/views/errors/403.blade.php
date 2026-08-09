@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Access Denied - Memorify</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="{{ asset('css/base.css') }}" />
+  <style>
+    .err-cover { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 24px;
+      background: linear-gradient(160deg, #fff5f7 0%, #ffffff 45%, #ffe9ea 100%); }
+    .err-card { max-width: 520px; width: 100%; text-align: center; }
+    .err-code { font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(72px, 16vw, 128px);
+      line-height: 1; background: linear-gradient(135deg, var(--pink-500), var(--purple-500));
+      -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .err-icon { width: 64px; height: 64px; margin: 0 auto 20px; border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; background: var(--pink-100); color: var(--pink-600); font-size: 24px; }
+    .err-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--ink-900); margin-bottom: 10px; }
+    .err-text { color: var(--ink-600); font-size: 15px; line-height: 1.7; margin-bottom: 28px; }
+    .err-nav { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+  <div class="err-cover">
+    <div class="err-card">
+      <div class="err-icon"><i class="fas fa-lock"></i></div>
+      <div class="err-code">403</div>
+      <h1 class="err-title">This one is private</h1>
+      <p class="err-text">You don't have permission to view this page. Every memory here is kept just for its owner.</p>
+      <div class="err-nav">
+        <a href="{{ auth()->check() ? route('dashboard') : route('home') }}" class="btn btn-primary">Back to Safety</a>
+        <a href="javascript:history.back()" class="btn btn-outline">Go Back</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="{{ $theme }}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -74,6 +74,16 @@
             </div>
           </aside>
         </section>
+
+        @if (! $hasMemories)
+          <div class="dash-section mem-empty reveal reveal-delay-2">
+            <div class="dash-empty">
+              <div class="dash-empty-icon"><i class="fas fa-calendar-plus"></i></div>
+              <p>Your calendar is still quiet. Add your first memory and this month will light up with hearts.</p>
+              <a href="{{ route('memories.create') }}" class="btn btn-primary btn-sm">Add Your First Memory</a>
+            </div>
+          </div>
+        @endif
 
       </div>
     </main>

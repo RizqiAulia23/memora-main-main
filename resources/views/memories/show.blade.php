@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="{{ $theme }}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -34,7 +34,7 @@
         <!-- Memory Detail -->
         <section class="mem-detail reveal">
           <div class="mem-detail-media">
-            <img src="{{ $memory->image ? asset('storage/' . $memory->image) : asset('img/memory-placeholder.svg') }}" alt="{{ $memory->title }}" />
+            <img src="{{ $memory->imageUrl() }}" alt="{{ $memory->title }}" />
           </div>
 
           <div class="mem-detail-body">

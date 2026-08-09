@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="{{ $theme }}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -44,11 +44,11 @@
         </section>
 
         <!-- Search & Filter -->
-        <section class="mem-toolbar reveal reveal-delay-1">
-          <form class="mem-search" action="{{ route('memories.index') }}" method="GET" role="search">
+        <form class="mem-toolbar reveal reveal-delay-1" action="{{ route('memories.index') }}" method="GET" role="search">
+          <div class="mem-search">
             <i class="fas fa-search"></i>
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by title or description..." aria-label="Search memories" />
-          </form>
+          </div>
           <div class="mem-filter">
             <label for="sort" class="mem-filter-label">Sort by</label>
             <select id="sort" name="sort" class="mem-filter-select" onchange="this.form.submit()">
@@ -66,7 +66,7 @@
               <a href="{{ route('memories.index') }}" class="mem-filter-clear"><i class="fas fa-times"></i> Clear</a>
             @endif
           </div>
-        </section>
+        </form>
 
         <!-- Memories Grid -->
         <section class="reveal reveal-delay-2" aria-label="Memories list">
@@ -75,7 +75,7 @@
               @foreach ($memories as $memory)
                 <article class="dash-memory-card" onclick="window.location='{{ route('memories.show', $memory) }}'">
                   <div class="dash-memory-img">
-                    <img src="{{ $memory->image ? asset('storage/' . $memory->image) : asset('img/memory-placeholder.svg') }}" alt="{{ $memory->title }}" loading="lazy" />
+                    <img src="{{ $memory->imageUrl() }}" alt="{{ $memory->title }}" loading="lazy" />
                     <button type="button"
                             class="mem-card-fav {{ $memory->favorites->isNotEmpty() ? 'active' : '' }}"
                             data-favorite-toggle
@@ -115,7 +115,16 @@
                     No memories yet. Start preserving your beautiful moments today.
                   @endif
                 </p>
-                <a href="{{ route('memories.create') }}" class="btn btn-primary btn-sm">Add Your First Memory</a>
+                <div class="dash-empty-actions">
+                  @if ($favoritesFilter)
+                    <a href="{{ route('memories.index') }}" class="btn btn-outline btn-sm">Browse All Memories</a>
+                  @elseif (request('search'))
+                    <a href="{{ route('memories.index') }}" class="btn btn-outline btn-sm">Clear Search</a>
+                    <a href="{{ route('memories.create') }}" class="btn btn-primary btn-sm">Add a Memory</a>
+                  @else
+                    <a href="{{ route('memories.create') }}" class="btn btn-primary btn-sm">Add Your First Memory</a>
+                  @endif
+                </div>
               </div>
             </div>
           @endif

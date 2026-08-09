@@ -31,10 +31,10 @@ Route::view('/features', 'features');
 */
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:10,1');
 
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
+Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:5,1');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -49,7 +49,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Memories
+    Route::get('/memories/{memory}/image', [MemoryController::class, 'image'])->name('memories.image');
     Route::resource('memories', MemoryController::class);
+
+    // Profile
+    Route::get('/users/{user}/avatar', [ProfileController::class, 'avatar'])->name('user.avatar');
 
     // Favorites (AJAX toggle + collection page)
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
@@ -72,7 +76,7 @@ Route::middleware('auth')->group(function () {
 
     // Global Search
     Route::get('/search', [SearchController::class, 'index'])->name('search.index');
-    Route::get('/search/instant', [SearchController::class, 'instant'])->name('search.instant');
+    Route::get('/search/instant', [SearchController::class, 'instant'])->name('search.instant')->middleware('throttle:30,1');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');

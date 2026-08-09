@@ -7,12 +7,14 @@ use Illuminate\Support\Facades\Storage;
 
 class StorageService
 {
+    private const DISK = 'private';
+
     public function usageForUser(User $user): int
     {
         return $user->memories()
             ->withImage()
             ->pluck('image')
-            ->sum(fn (string $path) => (int) Storage::disk('public')->size($path));
+            ->sum(fn (string $path) => (int) Storage::disk(self::DISK)->size($path));
     }
 
     public function formatBytes(int $bytes): string

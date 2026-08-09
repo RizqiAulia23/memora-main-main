@@ -55,7 +55,7 @@ class MemorifyTest extends TestCase
 
     public function test_user_can_create_memory_with_image(): void
     {
-        Storage::fake('public');
+        Storage::fake('private');
 
         $user = User::factory()->create();
 
@@ -73,7 +73,7 @@ class MemorifyTest extends TestCase
 
         $memory = Memory::first();
         $this->assertNotNull($memory->image);
-        Storage::disk('public')->assertExists($memory->image);
+        Storage::disk('private')->assertExists($memory->image);
     }
 
     public function test_user_cannot_access_another_users_memory(): void
@@ -101,7 +101,7 @@ class MemorifyTest extends TestCase
 
     public function test_user_can_update_memory_and_replace_image(): void
     {
-        Storage::fake('public');
+        Storage::fake('private');
 
         $user = User::factory()->create();
         $memory = Memory::create([
@@ -112,7 +112,7 @@ class MemorifyTest extends TestCase
             'image' => 'memories/old.png',
         ]);
 
-        Storage::disk('public')->put('memories/old.png', 'old');
+        Storage::disk('private')->put('memories/old.png', 'old');
 
         $this->actingAs($user)->patch("/memories/{$memory->id}", [
             'title' => 'New Title',
@@ -126,13 +126,13 @@ class MemorifyTest extends TestCase
         $this->assertEquals('New Title', $memory->title);
         $this->assertEquals('2024-02-02', $memory->memory_date->format('Y-m-d'));
         $this->assertNotNull($memory->image);
-        Storage::disk('public')->assertExists($memory->image);
-        Storage::disk('public')->assertMissing('memories/old.png');
+        Storage::disk('private')->assertExists($memory->image);
+        Storage::disk('private')->assertMissing('memories/old.png');
     }
 
     public function test_user_can_delete_memory_and_image(): void
     {
-        Storage::fake('public');
+        Storage::fake('private');
 
         $user = User::factory()->create();
         $memory = Memory::create([
@@ -143,14 +143,14 @@ class MemorifyTest extends TestCase
             'image' => 'memories/gone.png',
         ]);
 
-        Storage::disk('public')->put('memories/gone.png', 'data');
+        Storage::disk('private')->put('memories/gone.png', 'data');
 
         $this->actingAs($user)
             ->delete("/memories/{$memory->id}")
             ->assertRedirect('/memories');
 
         $this->assertDatabaseMissing('memories', ['id' => $memory->id]);
-        Storage::disk('public')->assertMissing('memories/gone.png');
+        Storage::disk('private')->assertMissing('memories/gone.png');
     }
 
     public function test_memories_can_be_searched(): void

@@ -9,10 +9,6 @@ use Illuminate\Support\Facades\Cache;
 
 class DashboardService
 {
-    public function __construct(
-        private readonly StorageService $storageService,
-    ) {}
-
     public function stats(User $user): array
     {
         return Cache::remember(self::cacheKey($user->id), now()->addMinutes(5), function () use ($user) {

@@ -16,6 +16,19 @@ class RichTextSanitizer
         $html = preg_replace('/\son[a-z]+\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)/i', '', $html) ?? $html;
         $html = preg_replace('/(href\s*=\s*["\'])\s*javascript:[^"\']*(["\'])/i', '$1$2', $html) ?? $html;
         $html = preg_replace('#<(script|style|iframe|object|embed)[^>]*>.*?</\1>#is', '', $html) ?? $html;
+        $html = preg_replace_callback(
+            '/style\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)/i',
+            function (array $matches): string {
+                $value = trim($matches[1], "\"'");
+
+                if (preg_match('/(url\s*\(|javascript:|expression\(|@import|behavior:)/i', $value)) {
+                    return '';
+                }
+
+                return $matches[0];
+            },
+            $html,
+        ) ?? $html;
 
         return trim($html);
     }
