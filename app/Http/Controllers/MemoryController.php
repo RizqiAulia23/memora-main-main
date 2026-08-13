@@ -43,14 +43,24 @@ class MemoryController extends Controller
     {
         $this->authorize('create', Memory::class);
 
-        $memory = $request->user()->memories()->create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'memory_date' => $request->memory_date,
-            'image' => $request->hasFile('image')
-                ? $this->imageService->store($request->file('image'))
-                : null,
-        ]);
+        $image = $request->hasFile('image')
+            ? $this->imageService->store($request->file('image'))
+            : null;
+
+        try {
+            $memory = $request->user()->memories()->create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'memory_date' => $request->memory_date,
+                'image' => $image,
+            ]);
+        } catch (\Throwable $exception) {
+            if ($image) {
+                $this->imageService->delete($image, 'memory-store-cleanup');
+            }
+
+            throw $exception;
+        }
 
         return redirect()->route('memories.show', $memory)
             ->with('success', 'Memory created successfully.');
@@ -74,12 +84,27 @@ class MemoryController extends Controller
     {
         $this->authorize('update', $memory);
 
-        $memory->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'memory_date' => $request->memory_date,
-            'image' => $this->imageService->update($memory->image, $request->file('image')),
-        ]);
+        $oldImage = $memory->image;
+        $newImage = $this->imageService->update($oldImage, $request->file('image'));
+
+        try {
+            $memory->update([
+                'title' => $request->title,
+                'description' => $request->description,
+                'memory_date' => $request->memory_date,
+                'image' => $newImage,
+            ]);
+        } catch (\Throwable $exception) {
+            if ($newImage !== $oldImage) {
+                $this->imageService->delete($newImage, 'memory-update-cleanup');
+            }
+
+            throw $exception;
+        }
+
+        if ($newImage !== $oldImage) {
+            $this->imageService->delete($oldImage, 'memory-image-replacement');
+        }
 
         return redirect()->route('memories.show', $memory)
             ->with('success', 'Memory updated successfully.');
@@ -89,8 +114,11 @@ class MemoryController extends Controller
     {
         $this->authorize('delete', $memory);
 
-        $this->imageService->delete($memory->image);
+        $image = $memory->image;
+
         $memory->delete();
+
+        $this->imageService->delete($image, 'memory-destroy');
 
         return redirect()->route('memories.index')
             ->with('success', 'Memory deleted successfully.');

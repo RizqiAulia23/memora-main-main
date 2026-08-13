@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class ImageStore
@@ -24,17 +25,29 @@ class ImageStore
             return $currentPath;
         }
 
-        $newPath = $this->store($newFile);
-
-        $this->delete($currentPath);
-
-        return $newPath;
+        return $this->store($newFile);
     }
 
-    public function delete(?string $path): void
+    public function delete(?string $path, ?string $context = null): bool
     {
-        if ($path && Storage::disk(self::DISK)->exists($path)) {
-            Storage::disk(self::DISK)->delete($path);
+        if (! $path) {
+            return true;
         }
+
+        if (Storage::disk(self::DISK)->delete($path)) {
+            return true;
+        }
+
+        if (Storage::disk(self::DISK)->delete($path)) {
+            return true;
+        }
+
+        Log::warning('File deletion failed after retry', [
+            'disk' => self::DISK,
+            'path' => $path,
+            'context' => $context,
+        ]);
+
+        return false;
     }
 }
