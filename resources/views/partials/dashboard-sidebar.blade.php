@@ -32,15 +32,33 @@
     <a href="{{ route('gallery.index') }}" class="dash-sidebar-link {{ $active === 'gallery' ? 'active' : '' }}">
       <i class="fas fa-camera-retro"></i> Gallery
     </a>
+    <a href="{{ route('shared-memories.index') }}" class="dash-sidebar-link {{ in_array($active, ['shared-memories', 'memories.share']) ? 'active' : '' }}">
+      <i class="fas fa-share-nodes"></i> Shared Memories
+    </a>
 
     <div class="dash-sidebar-section">Tools</div>
     <a href="{{ route('calendar.index') }}" class="dash-sidebar-link {{ $active === 'calendar' ? 'active' : '' }}">
       <i class="fas fa-calendar-alt"></i> Calendar
     </a>
+    <a href="{{ route('important-dates.index') }}" class="dash-sidebar-link {{ in_array($active, ['important-dates', 'important-dates.edit']) ? 'active' : '' }}">
+      <i class="fas fa-calendar-heart"></i> Important Dates
+    </a>
+    <a href="{{ route('playlists.index') }}" class="dash-sidebar-link {{ in_array($active, ['playlists', 'playlists.edit']) ? 'active' : '' }}">
+      <i class="fas fa-headphones"></i> Playlist
+    </a>
+    <a href="{{ route('couple-timeline.index') }}" class="dash-sidebar-link {{ $active === 'couple-timeline' ? 'active' : '' }}">
+      <i class="fas fa-heart-circle-plus"></i> Couple Timeline
+    </a>
+    <a href="{{ route('bucket-list.index') }}" class="dash-sidebar-link {{ $active === 'bucket-list' ? 'active' : '' }}">
+      <i class="fas fa-list-check"></i> Bucket List
+    </a>
 
     <div class="dash-sidebar-section">Account</div>
     <a href="{{ route('profile.show') }}" class="dash-sidebar-link {{ $active === 'profile' ? 'active' : '' }}">
       <i class="fas fa-user-circle"></i> Profile
+    </a>
+    <a href="{{ route('connections.index') }}" class="dash-sidebar-link {{ $active === 'connections' ? 'active' : '' }}">
+      <i class="fas fa-user-friends"></i> Connections
     </a>
     <a href="{{ route('settings.index') }}" class="dash-sidebar-link {{ $active === 'settings' ? 'active' : '' }}">
       <i class="fas fa-cog"></i> Settings

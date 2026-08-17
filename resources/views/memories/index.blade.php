@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en" data-theme="{{ $theme }}">
 <head>
   <meta charset="UTF-8" />
@@ -10,9 +10,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="{{ asset('css/base.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/memories.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/base.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/dashboard.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/memories.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/shared.css') }}">
 </head>
 <body>
 
@@ -29,7 +30,7 @@
         @include('partials.flash-alerts')
 
         <!-- Page Header -->
-        <section class="mem-head reveal">
+        <section class="mem-head reveal" data-gsap-reveal>
           <div>
             <h1 class="mem-head-title">My Memories</h1>
             <p class="mem-head-sub">{{ $memories->total() }} {{ Str::plural('memory', $memories->total()) }} preserved so far.</p>
@@ -40,7 +41,7 @@
         </section>
 
         <!-- Search & Filter -->
-        <form class="mem-toolbar reveal reveal-delay-1" action="{{ route('memories.index') }}" method="GET" role="search">
+        <form class="mem-toolbar reveal reveal-delay-1" action="{{ route('memories.index') }}" method="GET" role="search" data-gsap-reveal>
           <div class="mem-search">
             <i class="fas fa-search"></i>
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by title or description..." aria-label="Search memories" />
@@ -65,7 +66,7 @@
         </form>
 
         <!-- Memories Grid -->
-        <section class="reveal reveal-delay-2" aria-label="Memories list">
+        <section class="reveal reveal-delay-2" aria-label="Memories list" data-gsap-reveal>
           @if ($memories->isNotEmpty())
             <div class="dash-memories-grid">
               @foreach ($memories as $memory)
@@ -81,6 +82,7 @@
                       <i class="fas fa-heart"></i>
                     </button>
                     <span class="mem-card-actions">
+                      <a href="{{ route('memories.share', $memory) }}" class="mem-card-btn" aria-label="Share memory" title="Share with partner" onclick="event.stopPropagation()"><i class="fas fa-share-nodes"></i></a>
                       <a href="{{ route('memories.edit', $memory) }}" class="mem-card-btn" aria-label="Edit memory" onclick="event.stopPropagation()"><i class="fas fa-pen"></i></a>
                       <form method="POST" action="{{ route('memories.destroy', $memory) }}" class="mem-card-form" onsubmit="return confirm('Delete this memory?');" onclick="event.stopPropagation()">
                         @csrf
@@ -96,6 +98,13 @@
                     <div class="dash-memory-meta">
                       <span><i class="fas fa-calendar"></i> {{ $memory->memory_date->format('M j, Y') }}</span>
                     </div>
+                    @if (($memory->shared_with_count ?? 0) > 0)
+                      <div class="shm-chips">
+                        @foreach ($memory->sharedWith as $shared)
+                          <span class="shm-chip shm-chip-heart"><i class="fas fa-heart"></i> {{ $shared->partner->name }}</span>
+                        @endforeach
+                      </div>
+                    @endif
                   </div>
                 </article>
               @endforeach
@@ -140,7 +149,9 @@
 
   </div>
 
-  <script src="{{ asset('js/main.js') }}"></script>
-  <script src="{{ asset('js/dashboard.js') }}"></script>
+  @vite('resources/js/memorify-animations.js')
+  @vite('resources/js/memories-animations.js')
+  <script src="{{ assetv('js/main.js') }}"></script>
+  <script src="{{ assetv('js/dashboard.js') }}"></script>
 </body>
 </html>

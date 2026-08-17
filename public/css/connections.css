@@ -1,0 +1,262 @@
+/* ============================
+   Connections
+   ============================ */
+.conn-section {
+  margin-bottom: 24px;
+}
+
+.conn-search-form {
+  display: flex;
+  gap: 10px;
+  padding: 20px 24px;
+}
+
+.conn-search-input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: var(--ink-700);
+  background: var(--white);
+  border: 1px solid rgba(232, 58, 110, 0.12);
+  border-radius: var(--radius-input);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.conn-search-input:focus {
+  border-color: var(--pink-500);
+  box-shadow: 0 0 0 3px rgba(240, 80, 122, 0.12);
+}
+
+.conn-error {
+  padding: 0 24px 14px;
+  font-size: 13px;
+  color: var(--pink-600);
+}
+
+.conn-search-results {
+  padding: 0 24px 24px;
+}
+
+.conn-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(232, 58, 110, 0.06);
+}
+
+.conn-row:last-child {
+  border-bottom: none;
+}
+
+.conn-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.conn-avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--white);
+  background: linear-gradient(135deg, var(--pink-500), var(--purple-500));
+}
+
+.conn-name {
+  flex: 1;
+  min-width: 0;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--ink-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.conn-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.conn-inline {
+  display: inline-flex;
+}
+
+.conn-status-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-400);
+}
+
+.conn-status-ok {
+  color: var(--green-500);
+}
+
+.conn-code-box {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  flex-wrap: wrap;
+}
+
+.conn-code-display {
+  font-family: "Playfair Display", serif;
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: 10px;
+  color: var(--pink-600);
+  background: var(--pink-50);
+  border: 1.5px dashed rgba(232, 58, 110, 0.35);
+  border-radius: var(--radius-md);
+  padding: 8px 18px 8px 22px;
+  line-height: 1.2;
+  user-select: all;
+}
+
+.conn-hint {
+  flex-basis: 100%;
+  font-size: 13px;
+  color: var(--ink-400);
+}
+
+/* ============================
+   Connected pair + heartbeat
+   ============================ */
+.conn-pair {
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.conn-pair-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.conn-pair-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.conn-pair-user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.conn-pair .conn-avatar {
+  width: 56px;
+  height: 56px;
+}
+
+.conn-pair .conn-name {
+  flex: none;
+  max-width: 150px;
+  text-align: center;
+}
+
+.connection-heart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+.connection-heart i {
+  font-size: 22px;
+  color: var(--pink-600);
+  animation: connection-heartbeat 1.5s ease-in-out infinite;
+  transform-origin: center;
+  text-shadow: 0 4px 14px rgba(232, 58, 110, 0.35);
+}
+
+@keyframes connection-heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  14% {
+    transform: scale(1.15);
+  }
+
+  28% {
+    transform: scale(1);
+  }
+
+  42% {
+    transform: scale(1.12);
+  }
+
+  70% {
+    transform: scale(1);
+  }
+}
+
+[data-theme="dark"] .connection-heart i {
+  color: var(--pink-400);
+  text-shadow: 0 4px 16px rgba(240, 80, 122, 0.45);
+}
+
+@media (max-width: 560px) {
+  .conn-pair {
+    gap: 10px;
+  }
+
+  .conn-pair-main {
+    gap: 10px;
+  }
+
+  .conn-pair .conn-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .conn-pair .conn-name {
+    max-width: 88px;
+    font-size: 12.5px;
+  }
+
+  .connection-heart {
+    gap: 4px;
+  }
+
+  .connection-heart i {
+    font-size: 18px;
+  }
+}
+
+
+/* ============================
+   GSAP scroll reveals (Phase 4)
+   Neutralize the shared CSS reveal base for elements owned by GSAP so
+   there is no double animation. Content stays visible by default:
+   fully usable without JS, with reduced motion, or if an animation fails.
+   ============================ */
+.reveal[data-gsap-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}

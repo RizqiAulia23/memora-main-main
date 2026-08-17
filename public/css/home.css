@@ -855,3 +855,16 @@
     font-size: 26px;
   }
 }
+
+/* ============================
+   GSAP scroll reveals (Phase 2)
+   Elements animated by GSAP + ScrollTrigger keep their CSS reveal base
+   neutralized so there is no double animation. They stay visible by
+   default: fully usable without JS, with reduced motion, or if an
+   animation fails.
+   ============================ */
+.reveal[data-gsap-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}

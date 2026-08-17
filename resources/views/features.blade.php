@@ -1,15 +1,15 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="{{ asset('css/base.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/base.css') }}">
   <title>Memorify - Every Memory Matters</title>
   <meta name="description" content="Discover all the features Memorify offers - photo galleries, photobox collections, digital love letters, and memory timelines." />
   <meta property="og:title" content="Features - Memorify" />
   <meta property="og:description" content="Discover all the features Memorify offers for preserving your memories." />
   <meta property="og:type" content="website" />
-  <link rel="stylesheet" href="{{ asset('css/feature.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/feature.css') }}">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
@@ -44,7 +44,7 @@
   <!-- Hero Section -->
   <section class="hero" id="home">
     <div class="hero-container">
-      <div class="hero-content reveal">
+      <div class="hero-content reveal" data-gsap-reveal>
         <div class="hero-badge">
           <i class="far fa-heart"></i>
           <span>Your memories, beautifully organized</span>
@@ -57,7 +57,7 @@
           safe and beautiful place. Cherish it today, treasure it forever.
         </p>
         <div class="hero-buttons">
-          <a href="#" class="btn btn-primary btn-lg">
+          <a href="{{ url('/register') }}" class="btn btn-primary btn-lg">
             Get Started <i class="fas fa-arrow-right"></i>
           </a>
           <a href="#showcase" class="btn btn-outline btn-lg">
@@ -74,7 +74,7 @@
           <p>Join thousands of people who are preserving their memories <i class="fas fa-heart"></i></p>
         </div>
       </div>
-      <div class="hero-visual reveal reveal-delay-2">
+      <div class="hero-visual reveal reveal-delay-2" data-gsap-reveal>
         <!-- Dashboard Preview -->
         <div class="dashboard-preview">
           <div class="dashboard-header">
@@ -191,12 +191,12 @@
   <!-- Features Section -->
   <section class="features" id="features" aria-label="Features section">
     <div class="container">
-      <div class="section-header reveal">
+      <div class="section-header reveal" data-gsap-reveal>
         <span class="section-label">FEATURES</span>
         <h2 class="section-title">Everything You Need to<br />Preserve Your Memories</h2>
       </div>
       <div class="features-grid">
-        <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-card reveal reveal-delay-1" data-gsap-reveal>
           <div class="feature-icon icon-gallery">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="3" width="18" height="18" rx="2" />
@@ -207,7 +207,7 @@
           <h3>Photo Gallery</h3>
           <p>Store your favorite photos in high quality. Organized and easy to find.</p>
         </div>
-        <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-card reveal reveal-delay-2" data-gsap-reveal>
           <div class="feature-icon icon-photobox">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="3" width="7" height="7" rx="1" />
@@ -219,7 +219,7 @@
           <h3>Photobox Collection</h3>
           <p>Collect and organize all your photobox memories by date and occasion.</p>
         </div>
-        <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-card reveal reveal-delay-3" data-gsap-reveal>
           <div class="feature-icon icon-letters">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
@@ -229,7 +229,7 @@
           <h3>Digital Love Letters</h3>
           <p>Write and save your letters for each other. Revisit sweet words anytime.</p>
         </div>
-        <div class="feature-card reveal reveal-delay-4">
+        <div class="feature-card reveal reveal-delay-4" data-gsap-reveal>
           <div class="feature-icon icon-timeline">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
@@ -242,8 +242,8 @@
           <p>See your beautiful journey together, from the first moment until now.</p>
         </div>
       </div>
-      <div class="features-cta reveal">
-        <a href="#" class="link-arrow">
+      <div class="features-cta reveal" data-gsap-reveal>
+        <a href="#features" class="link-arrow">
           See All Features <i class="fas fa-arrow-right"></i>
         </a>
       </div>
@@ -253,17 +253,17 @@
   <!-- Showcase Section -->
   <section class="showcase" id="showcase" aria-label="Showcase section">
     <div class="container">
-      <div class="section-header reveal">
+      <div class="section-header reveal" data-gsap-reveal>
         <span class="section-label">SHOWCASE</span>
         <h2 class="section-title">See How Memories Come Together</h2>
       </div>
-      <div class="showcase-tabs reveal reveal-delay-1">
+      <div class="showcase-tabs reveal reveal-delay-1" data-gsap-reveal>
         <button class="tab-btn active" data-tab="gallery">Gallery</button>
         <button class="tab-btn" data-tab="timeline">Timeline</button>
         <button class="tab-btn" data-tab="photobox">Photobox</button>
         <button class="tab-btn" data-tab="letters">Letters</button>
       </div>
-      <div class="showcase-content reveal reveal-delay-2">
+      <div class="showcase-content reveal reveal-delay-2" data-gsap-reveal>
         <!-- Gallery Tab -->
         <div class="tab-panel active" id="gallery-panel">
           <div class="gallery-grid">
@@ -273,7 +273,7 @@
             <div class="gallery-item"><img src="https://images.unsplash.com/photo-1529634597503-139d3726fed5?w=200&h=200&fit=crop" alt="Couple" /></div>
             <div class="gallery-item"><img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=200&h=200&fit=crop" alt="Memory" /></div>
           </div>
-          <a href="#" class="btn btn-sm">View Gallery <i class="fas fa-arrow-right"></i></a>
+          <a href="{{ url('/register') }}" class="btn btn-sm">View Gallery <i class="fas fa-arrow-right"></i></a>
         </div>
         <!-- Timeline Tab -->
         <div class="tab-panel" id="timeline-panel">
@@ -307,7 +307,7 @@
               </div>
             </div>
           </div>
-          <a href="#" class="btn btn-sm">View Timeline <i class="fas fa-arrow-right"></i></a>
+          <a href="{{ url('/register') }}" class="btn btn-sm">View Timeline <i class="fas fa-arrow-right"></i></a>
         </div>
         <!-- Photobox Tab -->
         <div class="tab-panel" id="photobox-panel">
@@ -325,7 +325,7 @@
               <div class="strip-photo"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face" alt="" /></div>
             </div>
           </div>
-          <a href="#" class="btn btn-sm">View Photobox <i class="fas fa-arrow-right"></i></a>
+          <a href="{{ url('/register') }}" class="btn btn-sm">View Photobox <i class="fas fa-arrow-right"></i></a>
         </div>
         <!-- Letters Tab -->
         <div class="tab-panel" id="letters-panel">
@@ -340,7 +340,7 @@
               <p class="letter-sign">Forever yours,<br />A</p>
             </div>
           </div>
-          <a href="#" class="btn btn-sm">Read More <i class="fas fa-arrow-right"></i></a>
+          <a href="{{ url('/register') }}" class="btn btn-sm">Read More <i class="fas fa-arrow-right"></i></a>
         </div>
       </div>
     </div>
@@ -349,7 +349,7 @@
   <!-- CTA Section -->
   <section class="cta-section">
     <div class="container">
-      <div class="cta-card reveal">
+      <div class="cta-card reveal" data-gsap-reveal>
         <div class="cta-visual">
           <div class="calendar-illustration">
             <div class="calendar-top">
@@ -379,7 +379,7 @@
             Start Preserving Your<br />Memories <span class="highlight">Today</span>
           </h2>
           <p>Create your private memory archive and keep every precious moment safe for years to come.</p>
-          <a href="#" class="btn btn-white btn-lg">
+          <a href="{{ url('/register') }}" class="btn btn-white btn-lg">
             Create Your Archive <i class="fas fa-arrow-right"></i>
           </a>
           <p class="cta-note">It's free and easy to get started!</p>
@@ -422,24 +422,18 @@
         <div class="footer-col">
           <h4>Support</h4>
           <ul>
-            <li><a href="#">Help Center</a></li>
-            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="{{ url('/contact') }}">Help Center</a></li>
           </ul>
         </div>
-        <div class="footer-col">
-          <h4>Follow Us</h4>
-          <div class="socials">
-            <a href="#" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="social-btn" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          </div>
-        </div>
+      </div>
       </div>
       <div class="footer-bottom">&copy; 2025 Memorify. All rights reserved.</div>
     </div>
   </footer>
 
-  <script src="{{ asset('js/main.js') }}"></script>
-  <script src="{{ asset('js/features.js') }}"></script>
+  @vite('resources/js/memorify-animations.js')
+  @vite('resources/js/features-animations.js')
+  <script src="{{ assetv('js/main.js') }}"></script>
+  <script src="{{ assetv('js/features.js') }}"></script>
 </body>
 </html>

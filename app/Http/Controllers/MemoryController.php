@@ -25,9 +25,18 @@ class MemoryController extends Controller
             ->search($request->query('search'))
             ->sort($request->query('sort'))
             ->when($favoritesFilter, fn ($query) => $query->favorited())
-            ->with(['favorites' => fn ($query) => $query->where('user_id', $request->user()->id)])
+            ->with([
+                'favorites' => fn ($query) => $query->where('user_id', $request->user()->id),
+            ])
+            ->withCount('sharedWith')
             ->paginate(10)
             ->withQueryString();
+
+        // Only fetch shared-with partners when a card actually shows them,
+        // keeping the query count flat when nothing is shared.
+        if ($memories->contains(fn ($memory) => $memory->shared_with_count > 0)) {
+            $memories->load('sharedWith.partner');
+        }
 
         return view('memories.index', compact('memories', 'favoritesFilter'));
     }
@@ -69,6 +78,8 @@ class MemoryController extends Controller
     public function show(Memory $memory)
     {
         $this->authorize('view', $memory);
+
+        $memory->load(['user', 'sharedWith.partner']);
 
         return view('memories.show', compact('memory'));
     }

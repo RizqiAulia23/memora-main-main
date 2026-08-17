@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en" data-theme="{{ $theme }}">
 <head>
   <meta charset="UTF-8" />
@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="{{ asset('css/base.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/base.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/dashboard.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/profile.css') }}">
 </head>
 <body>
 
@@ -28,14 +28,14 @@
         @include('partials.flash-alerts')
 
         <!-- Page Header -->
-        <section class="mem-head reveal">
+        <section class="mem-head reveal" data-gsap-reveal>
           <div>
             <h1 class="mem-head-title">Your Profile</h1>
             <p class="mem-head-sub">Tell your story and keep it up to date.</p>
           </div>
         </section>
 
-        <div class="prof-layout reveal reveal-delay-1">
+        <div class="prof-layout reveal reveal-delay-1" data-gsap-reveal>
 
           <!-- Avatar Card -->
           <aside class="prof-card prof-avatar-card">
@@ -59,14 +59,15 @@
                 <span class="form-error">{{ $message }}</span>
               @enderror
               <button type="submit" class="btn btn-primary btn-sm" data-avatar-save hidden><i class="fas fa-save"></i> Save Photo</button>
-              @if ($user->avatar)
-                <form method="POST" action="{{ route('profile.remove-avatar') }}" class="prof-avatar-remove">
-                  @csrf
-                  @method('DELETE')
-                  <button type="submit" class="btn btn-outline btn-sm"><i class="fas fa-trash"></i> Remove Photo</button>
-                </form>
-              @endif
             </form>
+
+            @if ($user->avatar)
+              <form method="POST" action="{{ route('profile.remove-avatar') }}" class="prof-avatar-remove">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-outline btn-sm"><i class="fas fa-trash"></i> Remove Photo</button>
+              </form>
+            @endif
           </aside>
 
           <!-- Details -->
@@ -74,7 +75,7 @@
 
             <section class="prof-card">
               <h2 class="prof-card-title"><i class="fas fa-user-edit"></i> About You</h2>
-              <form method="POST" action="{{ route('profile.update') }}">
+              <form method="POST" action="{{ route('profile.update') }}" data-submit-feedback>
                 @csrf
                 @method('PUT')
 
@@ -125,7 +126,7 @@
 
             <section class="prof-card">
               <h2 class="prof-card-title"><i class="fas fa-lock"></i> Change Password</h2>
-              <form method="POST" action="{{ route('profile.update-password') }}">
+              <form method="POST" action="{{ route('profile.update-password') }}" data-submit-feedback>
                 @csrf
                 @method('PUT')
 
@@ -165,8 +166,10 @@
 
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
-  <script src="{{ asset('js/main.js') }}"></script>
-  <script src="{{ asset('js/dashboard.js') }}"></script>
-  <script src="{{ asset('js/profile.js') }}"></script>
+  @vite('resources/js/memorify-animations.js')
+  @vite('resources/js/profile-animations.js')
+  <script src="{{ assetv('js/main.js') }}"></script>
+  <script src="{{ assetv('js/dashboard.js') }}"></script>
+  <script src="{{ assetv('js/profile.js') }}"></script>
 </body>
 </html>

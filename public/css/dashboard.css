@@ -1054,11 +1054,13 @@
   background: rgba(30, 27, 37, 0.4);
   z-index: 45;
   opacity: 0;
+  pointer-events: none;
   transition: opacity 0.3s ease;
 }
 
 .dash-sidebar-overlay.active {
   opacity: 1;
+  pointer-events: auto;
 }
 
 /* ============================
@@ -1297,4 +1299,52 @@
   height: 110px;
   font-size: 42px;
   border-radius: 50%;
+}
+
+/* ============================
+   Dark Mode Fixes
+   ============================ */
+[data-theme="dark"] .dash-stat-trend.down {
+  background: var(--dt-pink-deep);
+  color: var(--pink-400);
+}
+
+[data-theme="dark"] .dash-calendar-day {
+  color: var(--dt-text-muted);
+}
+
+[data-theme="dark"] .dash-calendar-day:hover {
+  background: var(--dt-pink-deep);
+  color: var(--pink-400);
+}
+
+[data-theme="dark"] .dash-calendar-day.other-month {
+  color: var(--dt-text-dim);
+}
+
+[data-theme="dark"] .dash-timeline-dot {
+  border-color: var(--dt-surface);
+}
+
+[data-theme="dark"] .dash-letter-mood,
+[data-theme="dark"] .dash-letter-mood.happy,
+[data-theme="dark"] .dash-letter-mood.romantic,
+[data-theme="dark"] .dash-letter-mood.nostalgic,
+[data-theme="dark"] .dash-letter-mood.grateful,
+[data-theme="dark"] .dash-letter-mood.thoughtful,
+[data-theme="dark"] .dash-letter-mood.missing {
+  background: var(--dt-pink-deep);
+  color: var(--pink-400);
+}
+
+/* ============================
+   GSAP scroll reveals (Phase 3)
+   Neutralize the shared CSS reveal base for elements owned by GSAP so
+   there is no double animation. Content stays visible by default:
+   fully usable without JS, with reduced motion, or if an animation fails.
+   ============================ */
+.reveal[data-gsap-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: none;
 }

@@ -27,7 +27,8 @@ class ErrorPageTest extends TestCase
         $this->get('tf/this-route-does-not-exist')
             ->assertNotFound()
             ->assertSee('Page Not Found')
-            ->assertSee('This page wandered off');
+            ->assertSee('This page wandered off')
+            ->assertSee('err-cover', false);
     }
 
     public function test_419_session_expired_renders_custom_error_page(): void
@@ -67,5 +68,23 @@ class ErrorPageTest extends TestCase
             ->assertStatus(503)
             ->assertSee('Maintenance')
             ->assertSee('Tiny maintenance break');
+    }
+
+    public function test_error_pages_render_dark_theme_for_dark_mode_users(): void
+    {
+        $user = User::factory()->create();
+        $user->settings()->create(['theme' => 'dark', 'notifications_enabled' => true]);
+
+        $this->actingAs($user)
+            ->get('tf/this-route-does-not-exist')
+            ->assertNotFound()
+            ->assertSee('<html lang="en" data-theme="dark">', false);
+    }
+
+    public function test_error_pages_default_to_light_theme(): void
+    {
+        $this->get('tf/this-route-does-not-exist')
+            ->assertNotFound()
+            ->assertSee('<html lang="en" data-theme="light">', false);
     }
 }

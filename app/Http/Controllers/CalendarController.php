@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Memory;
+use App\Models\SharedEvent;
+use App\Models\User;
 use App\Services\DashboardService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,6 +20,7 @@ class CalendarController extends Controller
     public function index(Request $request): View
     {
         $this->authorize('viewAny', Memory::class);
+        $this->authorize('viewAny', SharedEvent::class);
 
         $month = now()->startOfMonth();
 
@@ -35,8 +38,15 @@ class CalendarController extends Controller
 
         $days = $this->dashboard->calendar($request->user(), $month);
 
+        $events = $this->eventsInMonth($request->user(), $month);
+
         return view('calendar.index', [
             'days' => $days,
+            'events' => $events,
+            'eventDates' => $events
+                ->map(fn ($event) => $event->event_date->format('Y-m-d'))
+                ->unique()
+                ->flip(),
             'month' => $month,
             'yearMonth' => $month->format('Y-m'),
             'prevMonth' => $month->copy()->subMonth()->format('Y-m'),
@@ -48,6 +58,7 @@ class CalendarController extends Controller
     public function onDate(Request $request)
     {
         $this->authorize('viewAny', Memory::class);
+        $this->authorize('viewAny', SharedEvent::class);
 
         if (! $request->query('date')) {
             return response()->json(['message' => 'The date is required.'], 422);
@@ -61,9 +72,44 @@ class CalendarController extends Controller
 
         $memories = $this->dashboard->memoriesOnDate($request->user(), $date);
 
+        $events = SharedEvent::query()
+            ->where(function ($query) use ($request) {
+                $query->where('user_id', $request->user()->id)
+                    ->orWhere(function ($query) use ($request) {
+                        $query->where('partner_id', $request->user()->id)
+                            ->whereIn('user_id', $request->user()->connectedPartnerIds());
+                    });
+            })
+            ->whereDate('event_date', $date->toDateString())
+            ->with('user')
+            ->orderBy('event_time')
+            ->get();
+
         return response()->json([
             'date' => $date->format('Y-m-d'),
-            'html' => ViewFactory::make('calendar._date-memories', ['memories' => $memories, 'date' => $date])->render(),
+            'html' => ViewFactory::make('calendar._date-memories', [
+                'memories' => $memories,
+                'events' => $events,
+                'date' => $date,
+            ])->render(),
         ]);
+    }
+
+    private function eventsInMonth(User $user, Carbon $month)
+    {
+        return SharedEvent::query()
+            ->where(function ($query) use ($user) {
+                $query->where('user_id', $user->id)
+                    ->orWhere(function ($query) use ($user) {
+                        $query->where('partner_id', $user->id)
+                            ->whereIn('user_id', $user->connectedPartnerIds());
+                    });
+            })
+            ->whereYear('event_date', $month->year)
+            ->whereMonth('event_date', $month->month)
+            ->with('user')
+            ->orderBy('event_date')
+            ->orderBy('event_time')
+            ->get();
     }
 }

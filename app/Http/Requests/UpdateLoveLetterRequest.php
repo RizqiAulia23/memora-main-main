@@ -17,7 +17,7 @@ class UpdateLoveLetterRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'content' => ['required', 'string'],
+            'content' => ['required', 'string', 'max:50000'],
             'mood' => ['required', 'string', Rule::in(LoveLetterMood::values())],
             'letter_date' => ['required', 'date'],
             'is_pinned' => ['sometimes', 'boolean'],

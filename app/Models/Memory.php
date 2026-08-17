@@ -37,6 +37,16 @@ class Memory extends Model
         return $this->hasMany(Favorite::class);
     }
 
+    public function sharedWith(): HasMany
+    {
+        return $this->hasMany(SharedMemory::class);
+    }
+
+    public function isSharedWith(User $user): bool
+    {
+        return $this->sharedWith()->where('partner_id', $user->id)->exists();
+    }
+
     public function scopeSearch(Builder $query, ?string $search): Builder
     {
         return $query->when($search, function (Builder $query, string $search) {

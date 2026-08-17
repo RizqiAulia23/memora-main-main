@@ -226,3 +226,23 @@
     gap: 5px;
   }
 }
+
+/* ============================
+   Dark Mode Fixes
+   ============================ */
+[data-theme="dark"] .cal-details-item:hover {
+  background: var(--dt-pink-deep);
+}
+
+
+/* ============================
+   GSAP scroll reveals (Phase 4)
+   Neutralize the shared CSS reveal base for elements owned by GSAP so
+   there is no double animation. Content stays visible by default:
+   fully usable without JS, with reduced motion, or if an animation fails.
+   ============================ */
+.reveal[data-gsap-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}

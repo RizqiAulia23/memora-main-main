@@ -43,29 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /* ============================
-     Scroll reveal (IntersectionObserver)
-     ============================ */
-  var revealElements = document.querySelectorAll('.reveal');
-  if (revealElements.length && 'IntersectionObserver' in window) {
-    var revealObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-    revealElements.forEach(function (el) {
-      revealObserver.observe(el);
-    });
-  } else {
-    revealElements.forEach(function (el) {
-      el.classList.add('visible');
-    });
-  }
-
-  /* ============================
      Animated counters
      ============================ */
   var counterElements = document.querySelectorAll('[data-count]');
@@ -105,6 +82,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
     requestAnimationFrame(step);
   }
+
+  /* ============================
+     Form submit feedback
+     ============================ */
+  document.querySelectorAll('form[data-submit-feedback]').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      if (e.defaultPrevented) return;
+      var btn = e.submitter || form.querySelector('button[type="submit"]');
+      if (!btn || btn.disabled) return;
+      btn.disabled = true;
+      btn.classList.add('is-submitting');
+      form.setAttribute('aria-busy', 'true');
+    });
+  });
 
   /* ============================
      Smooth scroll for anchor links

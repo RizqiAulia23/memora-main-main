@@ -2,6 +2,11 @@
 
 namespace App\Services;
 
+use App\Models\BucketListItem;
+use App\Models\ImportantDate;
+use App\Models\PlaylistTrack;
+use App\Models\SharedEvent;
+use App\Models\SharedMemory;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -12,14 +17,19 @@ class DashboardService
     public function stats(User $user): array
     {
         return Cache::remember(self::cacheKey($user->id), now()->addMinutes(5), function () use ($user) {
+            $memories = $user->memories()
+                ->selectRaw('count(*) as total')
+                ->selectRaw('sum(case when image is not null then 1 else 0 end) as photos')
+                ->selectRaw('sum(case when created_at >= ? then 1 else 0 end) as fresh', [now()->startOfMonth()])
+                ->first();
+
             return [
-                'total_memories' => $user->memories()->count(),
-                'total_photos' => $user->memories()->whereNotNull('image')->count(),
+                'total_memories' => (int) ($memories->total ?? 0),
+                'total_photos' => (int) ($memories->photos ?? 0),
                 'total_favorites' => $user->favorites()->count(),
                 'total_letters' => $user->loveLetters()->count(),
-                'new_this_month' => $user->memories()
-                    ->where('created_at', '>=', now()->startOfMonth())
-                    ->count(),
+                'new_this_month' => (int) ($memories->fresh ?? 0),
+                'unread_notifications' => $user->unreadNotifications()->count(),
             ];
         });
     }
@@ -135,6 +145,64 @@ class DashboardService
             'isToday' => $date->isToday(),
             'hasMemory' => $memoryDates->has($date->format('Y-m-d')),
             'otherMonth' => $otherMonth,
+        ];
+    }
+
+    /**
+     * Relationship overview for the user's first connected partner (or null).
+     */
+    public function coupleOverview(User $user): ?array
+    {
+        $partner = $user->connectedPartners()->first();
+
+        if (! $partner) {
+            return null;
+        }
+
+        $between = function ($query) use ($user, $partner) {
+            $query->where('user_id', $user->id)->where('partner_id', $partner->id)
+                ->orWhere(function ($query) use ($user, $partner) {
+                    $query->where('user_id', $partner->id)->where('partner_id', $user->id);
+                });
+        };
+
+        $sharedMemories = SharedMemory::query()
+            ->where(function ($query) use ($user, $partner) {
+                $query->whereHas('memory', fn ($memory) => $memory->where('user_id', $user->id))
+                    ->where('partner_id', $partner->id);
+            })
+            ->orWhere(function ($query) use ($user, $partner) {
+                $query->whereHas('memory', fn ($memory) => $memory->where('user_id', $partner->id))
+                    ->where('partner_id', $user->id);
+            })
+            ->count();
+
+        $events = SharedEvent::query()->where($between)->count();
+
+        $dates = ImportantDate::query()->where($between)->get();
+
+        $upcoming = $dates
+            ->map(fn (ImportantDate $date) => ['title' => $date->title, 'occurrence' => $date->nextOccurrence()])
+            ->filter(fn ($date) => $date['occurrence'] !== null)
+            ->sortBy('occurrence')
+            ->first();
+
+        $bucketItems = BucketListItem::query()->where($between)->get();
+
+        $playlistTracks = PlaylistTrack::query()
+            ->whereHas('playlist', function ($query) use ($between) {
+                $query->where($between);
+            })
+            ->count();
+
+        return [
+            'partner' => $partner,
+            'shared_memories' => $sharedMemories,
+            'events' => $events,
+            'upcoming_date' => $upcoming,
+            'bucket_done' => $bucketItems->where('status', BucketListItem::COMPLETED)->count(),
+            'bucket_total' => $bucketItems->count(),
+            'playlist_tracks' => $playlistTracks,
         ];
     }
 }

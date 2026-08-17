@@ -13,8 +13,17 @@ class GalleryController extends Controller
     {
         $this->authorize('viewAny', Memory::class);
 
-        $photos = $request->user()->memories()
+        $photos = Memory::query()
             ->withImage()
+            ->where(function ($query) use ($request) {
+                $query->where('user_id', $request->user()->id)
+                    ->orWhere(function ($sharedBranch) use ($request) {
+                        $sharedBranch
+                            ->whereHas('sharedWith', fn ($shared) => $shared->where('partner_id', $request->user()->id))
+                            ->whereHas('user', fn ($user) => $user->whereIn('id', $request->user()->connectedPartnerIds()));
+                    });
+            })
+            ->with(['user' => fn ($query) => $query->select('id', 'name')])
             ->latest('memory_date')
             ->paginate(12);
 

@@ -1,0 +1,316 @@
+/* ============================
+   Shared Memories
+   ============================ */
+.shm-head-icon {
+  color: var(--pink-600);
+}
+
+.shm-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding: 14px 20px;
+  background: var(--white);
+  border: 1px solid rgba(232, 58, 110, 0.1);
+  border-radius: var(--radius-md);
+  flex-wrap: wrap;
+}
+
+.shm-filter-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-600);
+}
+
+.shm-section {
+  margin-bottom: 32px;
+}
+
+.shm-section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "Playfair Display", serif;
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--ink-900);
+  margin-bottom: 14px;
+}
+
+.shm-section-title i {
+  color: var(--pink-600);
+}
+
+.shm-card {
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+}
+
+.shm-card-link {
+  display: block;
+  color: inherit;
+}
+
+.shm-card-link:hover .dash-memory-title {
+  color: var(--pink-600);
+}
+
+.shm-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.shm-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: var(--radius-btn);
+  background: var(--pink-50);
+  color: var(--ink-600);
+  border: 1px solid rgba(232, 58, 110, 0.12);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.shm-chip i {
+  font-size: 10px;
+}
+
+.shm-chip-heart {
+  background: var(--pink-100);
+  color: var(--pink-700);
+  border-color: transparent;
+}
+
+.shm-chip-form {
+  display: inline-flex;
+}
+
+.shm-chip-x {
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 10px;
+  padding: 2px;
+  margin-left: 4px;
+  border-radius: 50%;
+  opacity: 0.7;
+  transition: opacity var(--transition-fast);
+}
+
+.shm-chip-x:hover {
+  opacity: 1;
+}
+
+.mem-share-row {
+  margin-top: 14px;
+  align-items: center;
+}
+
+.mem-share-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-400);
+  margin-right: 2px;
+}
+
+[data-theme="dark"] .mem-share-label {
+  color: var(--dt-text-dim);
+}
+
+.shm-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px 16px;
+  flex-wrap: wrap;
+}
+
+.shm-unshare-btn:hover {
+  background: #fdeaea;
+  border-color: #f3c6c6;
+  color: #d94f4f;
+}
+
+/* ============================
+   Share form
+   ============================ */
+.shm-form-wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 30px;
+  border-radius: var(--radius-card);
+  background: var(--white);
+  border: 1px solid #f0e7ed;
+  box-shadow: var(--shadow-card);
+}
+
+.shm-preview {
+  display: flex;
+  gap: 18px;
+  padding: 16px;
+  margin-bottom: 22px;
+  border: 1px solid rgba(232, 58, 110, 0.12);
+  border-radius: var(--radius-md);
+  background: var(--pink-50);
+}
+
+.shm-preview-img {
+  width: 110px;
+  height: 110px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.shm-preview-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.shm-preview-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+
+.shm-preview-title {
+  font-family: "Playfair Display", serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink-900);
+}
+
+.shm-preview-meta {
+  font-size: 12.5px;
+  color: var(--ink-400);
+}
+
+.shm-preview-note {
+  font-size: 12.5px;
+  color: var(--ink-600);
+  line-height: 1.5;
+}
+
+.shm-preview-note i {
+  color: var(--pink-600);
+  margin-right: 5px;
+}
+
+.shm-form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.shm-no-partners {
+  text-align: center;
+  padding: 10px 0;
+  color: var(--ink-600);
+  font-size: 14px;
+}
+
+.shm-no-partners .dash-empty-icon {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+/* ============================
+   Dark theme
+   ============================ */
+[data-theme="dark"] .shm-filter,
+[data-theme="dark"] .shm-form-wrap {
+  background: var(--dt-surface);
+  border-color: var(--dt-border);
+}
+
+[data-theme="dark"] .shm-filter-label {
+  color: var(--dt-text-muted);
+}
+
+[data-theme="dark"] .shm-section-title {
+  color: var(--dt-text);
+}
+
+[data-theme="dark"] .shm-chip {
+  background: var(--dt-surface-3);
+  border-color: var(--dt-border);
+  color: var(--dt-text-muted);
+}
+
+[data-theme="dark"] .shm-chip-heart {
+  background: var(--dt-pink-deep);
+  color: var(--pink-400);
+  border-color: transparent;
+}
+
+[data-theme="dark"] .shm-unshare-btn:hover {
+  background: var(--dt-danger-bg);
+  border-color: rgba(255, 107, 107, 0.3);
+  color: var(--dt-danger-text);
+}
+
+[data-theme="dark"] .shm-preview {
+  background: var(--dt-surface-3);
+  border-color: var(--dt-border);
+}
+
+[data-theme="dark"] .shm-preview-title {
+  color: var(--dt-text);
+}
+
+[data-theme="dark"] .shm-preview-meta,
+[data-theme="dark"] .shm-preview-note,
+[data-theme="dark"] .shm-no-partners {
+  color: var(--dt-text-dim);
+}
+
+/* ============================
+   Responsive
+   ============================ */
+@media (max-width: 560px) {
+  .shm-form-wrap {
+    padding: 20px;
+  }
+
+  .shm-preview {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .shm-preview-img {
+    width: 100%;
+    height: 140px;
+  }
+
+  .shm-form-actions {
+    flex-direction: column;
+  }
+
+  .shm-form-actions .btn {
+    justify-content: center;
+  }
+}
+
+/* ============================
+   GSAP scroll reveals (Phase 5)
+   Neutralize the shared CSS reveal base for elements owned by GSAP so
+   there is no double animation. Content stays visible by default:
+   fully usable without JS, with reduced motion, or if an animation fails.
+   ============================ */
+.reveal[data-gsap-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}

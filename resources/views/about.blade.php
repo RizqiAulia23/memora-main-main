@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -7,8 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="{{ asset('css/base.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/about.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/base.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/about.css') }}">
   <meta name="description" content="Learn about Memorify - the memory preservation platform built for couples and families to store photos, love letters, and special moments." />
   <meta property="og:title" content="About Us - Memorify" />
   <meta property="og:description" content="Learn about Memorify - the memory preservation platform built for couples and families." />
@@ -45,9 +45,9 @@
   <!-- HERO -->
   <section class="about-hero">
     <div class="container">
-      <span class="eyebrow reveal">&#10084; About Memorify</span>
-      <h1 class="reveal reveal-delay-1">Preserving Love,<br>One <span class="accent">Story</span> at a Time</h1>
-      <p class="reveal reveal-delay-2">We believe every memory deserves a beautiful home. Memorify was built to help couples and families keep their precious moments safe, organized, and easy to revisit forever.</p>
+      <span class="eyebrow reveal" data-gsap-reveal>&#10084; About Memorify</span>
+      <h1 class="reveal reveal-delay-1" data-gsap-reveal>Preserving Love,<br>One <span class="accent">Story</span> at a Time</h1>
+      <p class="reveal reveal-delay-2" data-gsap-reveal>We believe every memory deserves a beautiful home. Memorify was built to help couples and families keep their precious moments safe, organized, and easy to revisit forever.</p>
     </div>
   </section>
 
@@ -55,7 +55,7 @@
   <section class="story">
     <div class="container">
       <div class="story-grid">
-        <div class="story-images reveal">
+        <div class="story-images reveal" data-gsap-reveal>
           <img class="main-img" src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=700&q=70" alt="Couple sharing a story together">
           <div class="float-card fc1">
             <div>
@@ -64,7 +64,7 @@
             </div>
           </div>
         </div>
-        <div class="story-copy reveal reveal-delay-1">
+        <div class="story-copy reveal reveal-delay-1" data-gsap-reveal>
           <div class="section-eyebrow">OUR STORY</div>
           <h2>Why We Built Memorify</h2>
           <p>It started with a simple problem: photos scattered across phones, letters lost in old notebooks, and memories fading with time. We wanted one safe, beautiful place to keep it all.</p>
@@ -79,19 +79,19 @@
   <section class="stats">
     <div class="container">
       <div class="stats-grid">
-        <div class="stat-card reveal reveal-delay-1">
+        <div class="stat-card reveal reveal-delay-1" data-gsap-reveal>
           <b data-count="50" data-suffix="K+">0</b>
           <span>Active Users</span>
         </div>
-        <div class="stat-card reveal reveal-delay-2">
+        <div class="stat-card reveal reveal-delay-2" data-gsap-reveal>
           <b data-count="2" data-suffix="M+">0</b>
           <span>Memories Saved</span>
         </div>
-        <div class="stat-card reveal reveal-delay-3">
+        <div class="stat-card reveal reveal-delay-3" data-gsap-reveal>
           <b data-count="120" data-suffix="+">0</b>
           <span>Countries Reached</span>
         </div>
-        <div class="stat-card reveal reveal-delay-4">
+        <div class="stat-card reveal reveal-delay-4" data-gsap-reveal>
           <b data-count="4.9" data-suffix="/5" data-decimal="true">0</b>
           <span>Average Rating</span>
         </div>
@@ -102,20 +102,20 @@
   <!-- VALUES -->
   <section class="values">
     <div class="container">
-      <div class="section-eyebrow reveal">OUR VALUES</div>
-      <h2 class="reveal reveal-delay-1">What We Stand For</h2>
+      <div class="section-eyebrow reveal" data-gsap-reveal>OUR VALUES</div>
+      <h2 class="reveal reveal-delay-1" data-gsap-reveal>What We Stand For</h2>
       <div class="value-grid">
-        <div class="value-card reveal reveal-delay-1">
+        <div class="value-card reveal reveal-delay-1" data-gsap-reveal>
           <div class="value-icon pink">&#128274;</div>
           <h3>Privacy First</h3>
           <p>Your memories are yours alone. We keep every photo, letter, and moment private and secure.</p>
         </div>
-        <div class="value-card reveal reveal-delay-2">
+        <div class="value-card reveal reveal-delay-2" data-gsap-reveal>
           <div class="value-icon peach">&#10024;</div>
           <h3>Simple &amp; Beautiful</h3>
           <p>We design every feature to feel warm and effortless, so preserving memories never feels like a chore.</p>
         </div>
-        <div class="value-card reveal reveal-delay-3">
+        <div class="value-card reveal reveal-delay-3" data-gsap-reveal>
           <div class="value-icon purple">&#10084;</div>
           <h3>Made With Love</h3>
           <p>Every detail is crafted with care, because we believe your story deserves to be told beautifully.</p>
@@ -127,25 +127,25 @@
   <!-- TEAM -->
   <section class="team">
     <div class="container">
-      <div class="section-eyebrow reveal">OUR TEAM</div>
-      <h2 class="reveal reveal-delay-1">The People Behind Memorify</h2>
+      <div class="section-eyebrow reveal" data-gsap-reveal>OUR TEAM</div>
+      <h2 class="reveal reveal-delay-1" data-gsap-reveal>The People Behind Memorify</h2>
       <div class="team-grid">
-        <div class="team-card reveal reveal-delay-1">
+        <div class="team-card reveal reveal-delay-1" data-gsap-reveal>
           <img src="https://i.pravatar.cc/150?img=32" alt="Amanda Rey portrait">
           <h4>Amanda Rey</h4>
           <span>Founder &amp; CEO</span>
         </div>
-        <div class="team-card reveal reveal-delay-2">
+        <div class="team-card reveal reveal-delay-2" data-gsap-reveal>
           <img src="https://i.pravatar.cc/150?img=12" alt="David Lin portrait">
           <h4>David Lin</h4>
           <span>Product Design</span>
         </div>
-        <div class="team-card reveal reveal-delay-3">
+        <div class="team-card reveal reveal-delay-3" data-gsap-reveal>
           <img src="https://i.pravatar.cc/150?img=45" alt="Sarah Putri portrait">
           <h4>Sarah Putri</h4>
           <span>Engineering Lead</span>
         </div>
-        <div class="team-card reveal reveal-delay-4">
+        <div class="team-card reveal reveal-delay-4" data-gsap-reveal>
           <img src="https://i.pravatar.cc/150?img=47" alt="Michael Tan portrait">
           <h4>Michael Tan</h4>
           <span>Customer Care</span>
@@ -156,7 +156,7 @@
 
   <!-- CTA -->
   <div class="about-cta-wrap">
-    <div class="about-cta-banner reveal">
+    <div class="about-cta-banner reveal" data-gsap-reveal>
       <div>
         <h2>Join Our Story</h2>
         <p>Start preserving your own memories with Memorify today. It's free.</p>
@@ -195,23 +195,17 @@
         <div class="footer-col">
           <h4>Support</h4>
           <ul>
-            <li><a href="#">Help Center</a></li>
-            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="{{ url('/contact') }}">Help Center</a></li>
           </ul>
         </div>
-        <div class="footer-col">
-          <h4>Follow Us</h4>
-          <div class="socials">
-            <a href="#" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="social-btn" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          </div>
-        </div>
+      </div>
       </div>
       <div class="footer-bottom">&copy; 2025 Memorify. All rights reserved.</div>
     </div>
   </footer>
 
-  <script src="{{ asset('js/main.js') }}"></script>
+  @vite('resources/js/memorify-animations.js')
+  @vite('resources/js/about-animations.js')
+  <script src="{{ assetv('js/main.js') }}"></script>
 </body>
 </html>

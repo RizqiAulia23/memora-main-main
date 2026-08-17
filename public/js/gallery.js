@@ -13,16 +13,35 @@ document.addEventListener('DOMContentLoaded', function () {
     items = Array.prototype.slice.call(document.querySelectorAll('[data-gallery-item]'));
   }
 
-  function openLightbox(index) {
-    collectItems();
-    if (!items.length) return;
-    current = index;
-    var item = items[current];
+  function applyItem(item) {
     lightboxImg.src = item.getAttribute('data-src');
     lightboxImg.alt = item.getAttribute('data-title') || '';
     lightboxTitle.textContent = item.getAttribute('data-title') || '';
     lightboxDate.textContent = item.getAttribute('data-date') || '';
     lightboxLink.href = item.getAttribute('data-url') || '#';
+    lightboxImg.classList.remove('gal-img-swap');
+    lightboxImg.classList.remove('gal-img-error');
+    lightbox.classList.add('gal-loading');
+    void lightboxImg.offsetWidth;
+    lightboxImg.classList.add('gal-img-swap');
+  }
+
+  function onImgReady() {
+    lightbox.classList.remove('gal-loading');
+  }
+
+  function onImgError() {
+    lightbox.classList.remove('gal-loading');
+    lightboxImg.classList.add('gal-img-error');
+    var figure = lightbox.querySelector('.gal-lightbox-figure');
+    if (figure) figure.classList.add('gal-img-error-msg');
+  }
+
+  function openLightbox(index) {
+    collectItems();
+    if (!items.length) return;
+    current = index;
+    applyItem(items[current]);
     lightbox.hidden = false;
     document.body.style.overflow = 'hidden';
     var closeBtn = lightbox.querySelector('[data-lightbox-close]');
@@ -38,16 +57,12 @@ document.addEventListener('DOMContentLoaded', function () {
   function step(delta) {
     collectItems();
     current = (current + delta + items.length) % items.length;
-    var item = items[current];
-    lightboxImg.src = item.getAttribute('data-src');
-    lightboxImg.alt = item.getAttribute('data-title') || '';
-    lightboxTitle.textContent = item.getAttribute('data-title') || '';
-    lightboxDate.textContent = item.getAttribute('data-date') || '';
-    lightboxLink.href = item.getAttribute('data-url') || '#';
+    applyItem(items[current]);
   }
 
   if (grid) {
     grid.addEventListener('click', function (e) {
+      if (e.target.closest('.gal-download')) return;
       var item = e.target.closest('[data-gallery-item]');
       if (!item) return;
       var index = Array.prototype.indexOf.call(grid.querySelectorAll('[data-gallery-item]'), item);
@@ -55,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     grid.addEventListener('keydown', function (e) {
       if (e.key !== 'Enter' && e.key !== ' ') return;
+      if (e.target.closest('.gal-download')) return;
       var item = e.target.closest('[data-gallery-item]');
       if (!item) return;
       e.preventDefault();
@@ -64,6 +80,8 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   if (lightbox) {
+    lightboxImg.addEventListener('load', onImgReady);
+    lightboxImg.addEventListener('error', onImgError);
     lightbox.querySelector('[data-lightbox-close]').addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', function (e) {
       if (e.target === lightbox) closeLightbox();
@@ -105,7 +123,32 @@ document.addEventListener('DOMContentLoaded', function () {
             return res.json();
           })
           .then(function (data) {
+            var before = grid.querySelectorAll(':scope > .gal-item').length;
             grid.insertAdjacentHTML('beforeend', data.html);
+            var all = grid.querySelectorAll(':scope > .gal-item');
+            var appended = Array.prototype.slice.call(all).slice(before);
+            appended.forEach(function (el) {
+              el.classList.add('gal-enter');
+            });
+            if (
+              appended.length &&
+              window.MemorifyAnimations &&
+              window.MemorifyAnimations.gsap &&
+              !window.MemorifyAnimations.prefersReducedMotion()
+            ) {
+              appended.forEach(function (el) {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(14px)';
+              });
+              window.MemorifyAnimations.gsap.to(appended, {
+                opacity: 1,
+                y: 0,
+                duration: 0.45,
+                ease: 'power2.out',
+                clearProps: 'transform,opacity',
+              });
+              window.MemorifyAnimations.refreshScrollTriggers();
+            }
             loadEl.setAttribute('data-next', data.nextUrl || '');
             hasMore = data.hasMore;
             if (!hasMore) loadEl.hidden = true;

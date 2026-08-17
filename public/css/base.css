@@ -65,7 +65,13 @@
   padding: 0;
 }
 
-html {
+/* The hidden attribute must always win over author display rules
+   (e.g. .gal-lightbox { display: flex }) so toggling it actually hides. */
+[hidden] {
+  display: none !important;
+}
+
+html:not(.lenis) {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
 }
@@ -517,6 +523,14 @@ img {
   box-shadow: none;
 }
 
+.btn.is-submitting {
+  opacity: 0.7;
+  cursor: wait;
+  transform: none;
+  box-shadow: none;
+  pointer-events: none;
+}
+
 .btn-danger:hover {
   transform: translateY(-2px);
   box-shadow: 0 14px 36px rgba(185, 28, 28, 0.4);
@@ -936,6 +950,39 @@ select.form-control {
 [data-theme="dark"] .dash-calendar-header h4,
 [data-theme="dark"] .dash-letter-title {
   color: var(--dt-text);
+}
+
+/* ==== Connections ==== */
+[data-theme="dark"] .conn-search-input,
+[data-theme="dark"] .conn-row {
+  background: var(--dt-surface);
+  border-color: var(--dt-border);
+}
+
+[data-theme="dark"] .conn-search-input {
+  color: var(--dt-text);
+}
+
+[data-theme="dark"] .conn-search-input::placeholder {
+  color: var(--dt-text-dim);
+}
+
+[data-theme="dark"] .conn-name {
+  color: var(--dt-text);
+}
+
+[data-theme="dark"] .conn-code-display {
+  color: var(--pink-400);
+  background: var(--dt-pink-deep);
+  border-color: rgba(232, 58, 110, 0.4);
+}
+
+[data-theme="dark"] .conn-hint {
+  color: var(--dt-text-dim);
+}
+
+[data-theme="dark"] .conn-status-text {
+  color: var(--dt-text-dim);
 }
 
 [data-theme="dark"] .dash-memory-meta,

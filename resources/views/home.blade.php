@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -11,8 +11,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="{{ asset('css/base.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    <link rel="stylesheet" href="{{ assetv('css/base.css') }}">
+    <link rel="stylesheet" href="{{ assetv('css/home.css') }}">
   </head>
   <body>
     <!-- HEADER -->
@@ -49,7 +49,7 @@
 
       <div class="container">
         <div class="hero-grid">
-          <div class="hero-copy reveal">
+          <div class="hero-copy">
             <div class="eyebrow">&#9829; Your memories, beautifully organized</div>
             <h1>Every Memory<br />Has <span class="accent">a Story</span></h1>
             <p class="lead">
@@ -71,7 +71,7 @@
             </div>
           </div>
 
-          <div class="hero-visual reveal reveal-delay-2">
+          <div class="hero-visual">
             <div class="dashboard">
               <div class="dash-sidebar">
                 <div class="dash-logo">
@@ -138,33 +138,33 @@
     <!-- FEATURES -->
     <section class="features" id="features">
       <div class="container">
-        <div class="reveal">
+        <div class="reveal" data-gsap-reveal>
           <div class="section-label">FEATURES</div>
           <h2 class="section-title">Everything You Need to<br />Preserve Your Memories</h2>
         </div>
         <div class="feature-grid">
-          <div class="feature-card reveal reveal-delay-1" id="feat-gallery">
+          <div class="feature-card reveal reveal-delay-1" id="feat-gallery" data-gsap-reveal>
             <div class="feat-icon pink">&#128247;</div>
             <h3>Photo Gallery</h3>
             <p>Store your favorite photos in high quality. Organized and easy to find.</p>
           </div>
-          <div class="feature-card reveal reveal-delay-2" id="feat-photobox">
+          <div class="feature-card reveal reveal-delay-2" id="feat-photobox" data-gsap-reveal>
             <div class="feat-icon peach">&#127909;</div>
             <h3>Photobox Collection</h3>
             <p>Collect and organize all your photobox memories by date and occasion.</p>
           </div>
-          <div class="feature-card reveal reveal-delay-3" id="feat-letters">
+          <div class="feature-card reveal reveal-delay-3" id="feat-letters" data-gsap-reveal>
             <div class="feat-icon purple">&#9993;</div>
             <h3>Digital Love Letters</h3>
             <p>Write and save your letters for each other. Revisit sweet words anytime.</p>
           </div>
-          <div class="feature-card reveal reveal-delay-4" id="feat-timeline">
+          <div class="feature-card reveal reveal-delay-4" id="feat-timeline" data-gsap-reveal>
             <div class="feat-icon teal">&#128197;</div>
             <h3>Memory Timeline</h3>
             <p>See your beautiful journey together, from the first moment until now.</p>
           </div>
         </div>
-        <div class="see-all-wrap reveal">
+        <div class="see-all-wrap reveal" data-gsap-reveal>
           <a href="{{ url('/features') }}" class="see-all" id="see-all-features">See All Features &rarr;</a>
         </div>
       </div>
@@ -173,12 +173,12 @@
     <!-- SHOWCASE -->
     <section class="showcase" id="showcase">
       <div class="container">
-        <div class="showcase-head reveal">
+        <div class="showcase-head reveal" data-gsap-reveal>
           <div class="section-label">SHOWCASE</div>
           <h2 class="section-title" style="margin-bottom: 0">See How Memories Come Together</h2>
         </div>
         <div class="tab-grid">
-          <div class="tab-card reveal reveal-delay-1" id="sc-gallery">
+          <div class="tab-card reveal reveal-delay-1" id="sc-gallery" data-gsap-reveal>
             <span class="tab-pill active">Gallery</span>
             <div class="gallery-mosaic">
               <img class="wide" src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=300&q=60" alt="Gallery preview" />
@@ -188,7 +188,7 @@
             <a href="{{ url('/features') }}" class="btn-sm tab-action" id="sc-gallery-btn">View Gallery &rarr;</a>
           </div>
 
-          <div class="tab-card reveal reveal-delay-2" id="sc-timeline">
+          <div class="tab-card reveal reveal-delay-2" id="sc-timeline" data-gsap-reveal>
             <span class="tab-pill inactive">Timeline</span>
             <div class="tl-list">
               <div class="tl-item"><div><b>First Meet</b><span>12 March 2022</span></div></div>
@@ -199,7 +199,7 @@
             <a href="{{ url('/features') }}" class="btn-sm tab-action" id="sc-timeline-btn">View Timeline &rarr;</a>
           </div>
 
-          <div class="tab-card reveal reveal-delay-3" id="sc-photobox">
+          <div class="tab-card reveal reveal-delay-3" id="sc-photobox" data-gsap-reveal>
             <span class="tab-pill inactive">Photobox</span>
             <div class="pb-strip">
               <img src="https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?w=200&q=60" alt="Photobox preview" />
@@ -210,7 +210,7 @@
             <a href="{{ url('/features') }}" class="btn-sm tab-action" id="sc-photobox-btn">View Photobox &rarr;</a>
           </div>
 
-          <div class="tab-card reveal reveal-delay-4" id="sc-letters">
+          <div class="tab-card reveal reveal-delay-4" id="sc-letters" data-gsap-reveal>
             <span class="tab-pill inactive">Letters</span>
             <div class="letter-card">
               <span class="l-title">For you &#9829;</span>
@@ -226,7 +226,7 @@
 
     <!-- CTA BANNER -->
     <div class="cta-section" id="start">
-      <div class="cta-banner reveal">
+      <div class="cta-banner reveal" data-gsap-reveal>
         <span class="cta-heart" style="top: 16px; left: 240px; font-size: 24px">&#9829;</span>
         <span class="cta-heart" style="bottom: 18px; right: 260px; font-size: 18px">&#9829;</span>
         <div class="cta-calendar">
@@ -274,23 +274,15 @@
           <div class="footer-col">
             <h4>Support</h4>
             <ul>
-              <li><a href="#">Help Center</a></li>
-              <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Terms of Service</a></li>
+              <li><a href="{{ url('/contact') }}">Help Center</a></li>
             </ul>
-          </div>
-          <div class="footer-col">
-            <h4>Follow Us</h4>
-            <div class="socials">
-              <a href="#" class="social-btn" id="social-ig" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-              <a href="#" class="social-btn" id="social-tw" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-              <a href="#" class="social-btn" id="social-fb" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            </div>
           </div>
         </div>
         <div class="footer-bottom">&copy; 2025 Memorify. All rights reserved.</div>
       </div>
     </footer>
-    <script src="{{ asset('js/main.js') }}"></script>
+    @vite('resources/js/memorify-animations.js')
+    @vite('resources/js/home-animations.js')
+    <script src="{{ assetv('js/main.js') }}"></script>
   </body>
 </html>

@@ -16,8 +16,9 @@ class StoreLoveLetterRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'receiver_id' => ['nullable', 'integer', 'exists:users,id'],
             'title' => ['required', 'string', 'max:255'],
-            'content' => ['required', 'string'],
+            'content' => ['required', 'string', 'max:50000'],
             'mood' => ['required', 'string', Rule::in(LoveLetterMood::values())],
             'letter_date' => ['required', 'date'],
             'is_pinned' => ['sometimes', 'boolean'],

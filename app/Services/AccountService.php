@@ -24,6 +24,7 @@ class AccountService
 
         $avatar = $user->avatar;
 
+        $user->notifications()->delete();
         $user->delete();
 
         foreach ($images as $path) {

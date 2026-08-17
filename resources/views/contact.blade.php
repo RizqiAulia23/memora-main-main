@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -12,8 +12,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="{{ asset('css/base.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/contact.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/base.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/contact.css') }}">
 </head>
 <body>
 
@@ -46,9 +46,9 @@
   <!-- Hero Section -->
   <section class="contact-hero">
     <div class="container">
-      <span class="eyebrow reveal"><i class="fas fa-heart"></i> CONTACT US</span>
-      <h1 class="reveal reveal-delay-1">We'd Love to Hear<br>From <span class="accent">You</span></h1>
-      <p class="reveal reveal-delay-2">Have a question, feedback, or just want to say hello? We're here to help and would love to connect with you.</p>
+      <span class="eyebrow reveal" data-gsap-reveal><i class="fas fa-heart"></i> CONTACT US</span>
+      <h1 class="reveal reveal-delay-1" data-gsap-reveal>We'd Love to Hear<br>From <span class="accent">You</span></h1>
+      <p class="reveal reveal-delay-2" data-gsap-reveal>Have a question, feedback, or just want to say hello? We're here to help and would love to connect with you.</p>
     </div>
   </section>
 
@@ -57,69 +57,32 @@
     <div class="container">
       <div class="contact-grid">
 
-        <!-- Contact Form -->
-        <div class="contact-form-wrap reveal">
-          <h2>Send Us a Message</h2>
-          <p class="form-subtitle">Fill out the form below and we'll get back to you as soon as possible.</p>
-          <form class="contact-form" action="#" method="post" novalidate>
-            @csrf
-            <div class="form-group">
-              <label for="contact-name">Your Name</label>
-              <input type="text" id="contact-name" name="name" placeholder="Enter your name" required aria-required="true" />
-            </div>
-            <div class="form-group">
-              <label for="contact-email">Email Address</label>
-              <input type="email" id="contact-email" name="email" placeholder="Enter your email" required aria-required="true" />
-            </div>
-            <div class="form-group">
-              <label for="contact-subject">Subject</label>
-              <input type="text" id="contact-subject" name="subject" placeholder="How can we help?" required aria-required="true" />
-            </div>
-            <div class="form-group">
-              <label for="contact-message">Message</label>
-              <textarea id="contact-message" name="message" rows="5" placeholder="Write your message here..." required aria-required="true"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary contact-submit" aria-label="Send message">
-              Send Message <i class="fas fa-paper-plane"></i>
-            </button>
-          </form>
-        </div>
-
         <!-- Contact Info -->
-        <div class="contact-info reveal reveal-delay-1">
+        <div class="contact-info reveal reveal-delay-1" data-gsap-reveal>
           <h2>Get in Touch</h2>
           <p class="info-subtitle">You can also reach us through the following channels.</p>
 
           <div class="info-cards">
-            <div class="info-card">
+            <div class="info-card" data-gsap-reveal>
               <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
               <div class="info-content">
                 <h4>Address</h4>
                 <p>123 Memory Lane<br>Jakarta, Indonesia</p>
               </div>
             </div>
-            <div class="info-card">
+            <div class="info-card" data-gsap-reveal>
               <div class="info-icon"><i class="fas fa-envelope"></i></div>
               <div class="info-content">
                 <h4>Email</h4>
                 <p>hello@memorify.com</p>
               </div>
             </div>
-            <div class="info-card">
+            <div class="info-card" data-gsap-reveal>
               <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
               <div class="info-content">
                 <h4>Phone</h4>
                 <p>+62 123 456 789</p>
               </div>
-            </div>
-          </div>
-
-          <div class="social-links">
-            <h4>Follow Us</h4>
-            <div class="social-icons">
-              <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-              <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-              <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
             </div>
           </div>
         </div>
@@ -131,7 +94,7 @@
   <!-- CTA Banner -->
   <section class="cta-banner" id="start">
     <div class="container">
-      <div class="cta-banner-inner reveal">
+      <div class="cta-banner-inner reveal" data-gsap-reveal>
         <div>
           <h2>Start Preserving Your Memories Today</h2>
           <p>Create your private memory archive and keep every precious moment safe for years to come.</p>
@@ -171,23 +134,17 @@
         <div class="footer-col">
           <h4>Support</h4>
           <ul>
-            <li><a href="#">Help Center</a></li>
-            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="{{ url('/contact') }}">Help Center</a></li>
           </ul>
         </div>
-        <div class="footer-col">
-          <h4>Follow Us</h4>
-          <div class="socials">
-            <a href="#" class="social-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="social-btn" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="social-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          </div>
-        </div>
+      </div>
       </div>
       <div class="footer-bottom">&copy; 2025 Memorify. All rights reserved.</div>
     </div>
   </footer>
 
-  <script src="{{ asset('js/main.js') }}"></script>
+  @vite('resources/js/memorify-animations.js')
+  @vite('resources/js/contact-animations.js')
+  <script src="{{ assetv('js/main.js') }}"></script>
 </body>
 </html>

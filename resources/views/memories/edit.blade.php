@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en" data-theme="{{ $theme }}">
 <head>
   <meta charset="UTF-8" />
@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="{{ asset('css/base.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/memories.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/base.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/dashboard.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/memories.css') }}">
 </head>
 <body>
 
@@ -26,7 +26,7 @@
       <div class="dash-content">
 
         <!-- Page Header -->
-        <section class="mem-head reveal">
+        <section class="mem-head reveal" data-gsap-reveal>
           <div>
             <h1 class="mem-head-title">Edit Memory</h1>
             <p class="mem-head-sub">Update the details of this special moment.</p>
@@ -53,9 +53,9 @@
         @endif
 
         <!-- Form -->
-        <section class="dash-section reveal reveal-delay-1">
+        <section class="dash-section reveal reveal-delay-1" data-gsap-reveal>
           <div class="dash-section-body">
-            <form action="{{ route('memories.update', $memory) }}" method="POST" enctype="multipart/form-data" class="mem-form" novalidate>
+            <form action="{{ route('memories.update', $memory) }}" method="POST" enctype="multipart/form-data" class="mem-form" novalidate data-submit-feedback>
               @csrf
               @method('PATCH')
 
@@ -127,8 +127,10 @@
 
   </div>
 
-  <script src="{{ asset('js/main.js') }}"></script>
-  <script src="{{ asset('js/dashboard.js') }}"></script>
-  <script src="{{ asset('js/memories.js') }}"></script>
+  @vite('resources/js/memorify-animations.js')
+  @vite('resources/js/memories-form-animations.js')
+  <script src="{{ assetv('js/main.js') }}"></script>
+  <script src="{{ assetv('js/dashboard.js') }}"></script>
+  <script src="{{ assetv('js/memories.js') }}"></script>
 </body>
 </html>

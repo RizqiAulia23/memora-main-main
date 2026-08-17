@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Memory;
+use App\Models\SharedMemory;
 use App\Models\User;
 
 class MemoryPolicy
@@ -14,7 +15,14 @@ class MemoryPolicy
 
     public function view(User $user, Memory $memory): bool
     {
-        return $memory->user_id === $user->id;
+        if ($memory->user_id === $user->id) {
+            return true;
+        }
+
+        return SharedMemory::query()
+            ->where('memory_id', $memory->id)
+            ->where('partner_id', $user->id)
+            ->exists();
     }
 
     public function create(User $user): bool

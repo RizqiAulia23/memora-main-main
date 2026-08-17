@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en" data-theme="{{ $theme }}">
 <head>
   <meta charset="UTF-8" />
@@ -9,8 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="{{ asset('css/base.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/base.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/dashboard.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/couple.css') }}">
 </head>
 <body>
 
@@ -35,7 +36,7 @@
         @include('partials.flash-alerts')
 
         <!-- Welcome Hero -->
-        <section class="dash-welcome reveal" aria-label="Welcome message">
+        <section class="dash-welcome reveal" data-gsap-reveal aria-label="Welcome message">
           <div class="dash-welcome-content">
             @php
               $hour = (int) now()->format('G');
@@ -66,7 +67,7 @@
         </section>
 
         <!-- Statistics -->
-        <section class="dash-stats reveal reveal-delay-1" aria-label="Statistics">
+        <section class="dash-stats reveal reveal-delay-1" data-gsap-reveal aria-label="Statistics">
           <div class="dash-stat-card">
             <div class="dash-stat-icon pink"><i class="fas fa-images"></i></div>
             <div class="dash-stat-number" data-count="{{ $totalMemories }}" data-suffix="">0</div>
@@ -93,11 +94,66 @@
           </div>
         </section>
 
+        <!-- Relationship Overview -->
+        @if ($couple)
+          <section class="cpl-overview reveal reveal-delay-1" data-gsap-reveal aria-label="Relationship overview">
+            <div class="dash-section-header">
+              <h3><i class="fas fa-heart-circle-check"></i> {{ $couple['partner']->name }} &amp; You</h3>
+              <a href="{{ route('couple-timeline.index') }}">Couple Timeline <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="cpl-overview-grid">
+              <a href="{{ route('shared-memories.index') }}" class="cpl-ov-card">
+                <div class="cpl-ov-icon"><i class="fas fa-share-nodes"></i></div>
+                <div class="cpl-ov-body">
+                  <div class="cpl-ov-value">{{ $couple['shared_memories'] }}</div>
+                  <div class="cpl-ov-label">Shared Memories</div>
+                </div>
+              </a>
+              <a href="{{ route('calendar.index') }}" class="cpl-ov-card">
+                <div class="cpl-ov-icon"><i class="fas fa-calendar-star"></i></div>
+                <div class="cpl-ov-body">
+                  <div class="cpl-ov-value">{{ $couple['events'] }}</div>
+                  <div class="cpl-ov-label">Shared Events</div>
+                </div>
+              </a>
+              <a href="{{ route('playlists.index') }}" class="cpl-ov-card">
+                <div class="cpl-ov-icon"><i class="fas fa-headphones"></i></div>
+                <div class="cpl-ov-body">
+                  <div class="cpl-ov-value">{{ $couple['playlist_tracks'] }}</div>
+                  <div class="cpl-ov-label">Playlist Tracks</div>
+                </div>
+              </a>
+              <a href="{{ route('bucket-list.index') }}" class="cpl-ov-card">
+                <div class="cpl-ov-icon"><i class="fas fa-list-check"></i></div>
+                <div class="cpl-ov-body">
+                  <div class="cpl-ov-value">{{ $couple['bucket_done'] }}<span style="font-size:12px;font-weight:600;"> / {{ $couple['bucket_total'] }}</span></div>
+                  <div class="cpl-ov-label">Bucket List Done</div>
+                </div>
+              </a>
+            </div>
+            @if ($couple['upcoming_date'])
+              <div class="dash-anniversary" style="margin-top:14px;">
+                <i class="fas fa-calendar-heart"></i>
+                <span>
+                  @php
+                    $days = (int) now()->startOfDay()->diffInDays($couple['upcoming_date']['occurrence']->startOfDay());
+                  @endphp
+                  @if ($days === 0)
+                    {{ $couple['upcoming_date']['title'] }} is today. Celebrate!
+                  @else
+                    {{ $couple['upcoming_date']['title'] }} in {{ $days }} {{ Str::plural('day', $days) }} — {{ $couple['upcoming_date']['occurrence']->format('M j, Y') }}.
+                  @endif
+                </span>
+              </div>
+            @endif
+          </section>
+        @endif
+
         <!-- Main Grid: Memories + Sidebar -->
         <div class="dash-grid">
 
           <!-- Recent Memories -->
-          <section class="dash-section reveal reveal-delay-2" aria-label="Recent memories">
+          <section class="dash-section reveal reveal-delay-2" data-gsap-reveal aria-label="Recent memories">
             <div class="dash-section-header">
               <h3>Recent Memories</h3>
               <a href="{{ route('memories.index') }}">View All <i class="fas fa-arrow-right"></i></a>
@@ -135,7 +191,7 @@
           <div class="dash-sidebar-col">
 
             <!-- Timeline Preview -->
-            <section class="dash-section reveal reveal-delay-3" aria-label="Timeline preview">
+            <section class="dash-section reveal reveal-delay-3" data-gsap-reveal aria-label="Timeline preview">
               <div class="dash-section-header">
                 <h3>Our Journey</h3>
                 <a href="{{ route('memories.index', ['sort' => 'memory_date']) }}">Full Timeline <i class="fas fa-arrow-right"></i></a>
@@ -163,15 +219,11 @@
             </section>
 
             <!-- Calendar Widget -->
-            <section class="dash-section reveal reveal-delay-3" aria-label="Calendar">
+            <section class="dash-section reveal reveal-delay-3" data-gsap-reveal aria-label="Calendar">
               <div class="dash-section-body">
                 <div class="dash-calendar">
                   <div class="dash-calendar-header">
                     <h4>{{ now()->format('F Y') }}</h4>
-                    <div class="dash-calendar-nav">
-                      <button aria-label="Previous month"><i class="fas fa-chevron-left"></i></button>
-                      <button aria-label="Next month"><i class="fas fa-chevron-right"></i></button>
-                    </div>
                   </div>
                   <div class="dash-calendar-grid">
                     <div class="dash-calendar-day-name">Su</div>
@@ -202,7 +254,7 @@
         <div class="dash-grid-split">
 
           <!-- Latest Photos -->
-          <section class="dash-section reveal reveal-delay-4" aria-label="Latest photos">
+          <section class="dash-section reveal reveal-delay-4" data-gsap-reveal aria-label="Latest photos">
             <div class="dash-section-header">
               <h3>Latest Photos</h3>
               <a href="{{ route('gallery.index') }}">Open Gallery <i class="fas fa-arrow-right"></i></a>
@@ -227,7 +279,7 @@
           </section>
 
           <!-- Recent Letters -->
-          <section class="dash-section reveal reveal-delay-4" aria-label="Recent love letters">
+          <section class="dash-section reveal reveal-delay-4" data-gsap-reveal aria-label="Recent love letters">
             <div class="dash-section-header">
               <h3>Recent Love Letters</h3>
               <a href="{{ route('letters.index') }}">All Letters <i class="fas fa-arrow-right"></i></a>
@@ -264,7 +316,7 @@
         <div class="dash-grid-split">
 
           <!-- Quick Actions -->
-          <section class="dash-section reveal reveal-delay-4" aria-label="Quick actions">
+          <section class="dash-section reveal reveal-delay-4" data-gsap-reveal aria-label="Quick actions">
             <div class="dash-section-header">
               <h3>Quick Actions</h3>
             </div>
@@ -291,7 +343,7 @@
           </section>
 
           <!-- Recent Activity -->
-          <section class="dash-section reveal reveal-delay-4" aria-label="Recent activity">
+          <section class="dash-section reveal reveal-delay-4" data-gsap-reveal aria-label="Recent activity">
             <div class="dash-section-header">
               <h3>Recent Activity</h3>
               <a href="{{ route('memories.index') }}">See All <i class="fas fa-arrow-right"></i></a>
@@ -324,7 +376,9 @@
 
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
-  <script src="{{ asset('js/main.js') }}"></script>
-  <script src="{{ asset('js/dashboard.js') }}"></script>
+  @vite('resources/js/memorify-animations.js')
+  @vite('resources/js/dashboard-animations.js')
+  <script src="{{ assetv('js/main.js') }}"></script>
+  <script src="{{ assetv('js/dashboard.js') }}"></script>
 </body>
 </html>

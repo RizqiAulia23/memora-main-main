@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en" data-theme="{{ $theme }}">
 <head>
   <meta charset="UTF-8" />
@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="{{ asset('css/base.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/gallery.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/base.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/dashboard.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/gallery.css') }}">
 </head>
 <body>
 
@@ -28,7 +28,7 @@
         @include('partials.flash-alerts')
 
         <!-- Page Header -->
-        <section class="mem-head reveal">
+        <section class="mem-head reveal" data-gsap-reveal>
           <div>
             <h1 class="mem-head-title">Photo Gallery</h1>
             <p class="mem-head-sub">Every snapshot tells a story worth keeping.</p>
@@ -39,7 +39,7 @@
         </section>
 
         <!-- Grid -->
-        <section class="reveal reveal-delay-1" aria-label="Photo gallery" data-gallery>
+        <section class="reveal reveal-delay-1" aria-label="Photo gallery" data-gallery data-gsap-reveal>
           @if ($photos->isNotEmpty())
             <div class="gal-grid" data-gallery-grid>
               @include('gallery._grid', ['photos' => $photos])
@@ -86,8 +86,10 @@
 
   <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
-  <script src="{{ asset('js/main.js') }}"></script>
-  <script src="{{ asset('js/dashboard.js') }}"></script>
-  <script src="{{ asset('js/gallery.js') }}"></script>
+  @vite('resources/js/memorify-animations.js')
+  @vite('resources/js/gallery-animations.js')
+  <script src="{{ assetv('js/main.js') }}"></script>
+  <script src="{{ assetv('js/dashboard.js') }}"></script>
+  <script src="{{ assetv('js/gallery.js') }}"></script>
 </body>
 </html>

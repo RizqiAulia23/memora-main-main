@@ -15,11 +15,13 @@ class LoveLetter extends Model
 
     protected $fillable = [
         'user_id',
+        'receiver_id',
         'title',
         'content',
         'mood',
         'letter_date',
         'is_pinned',
+        'read_at',
     ];
 
     protected function casts(): array
@@ -27,6 +29,7 @@ class LoveLetter extends Model
         return [
             'letter_date' => 'date',
             'is_pinned' => 'boolean',
+            'read_at' => 'datetime',
         ];
     }
 
@@ -43,9 +46,21 @@ class LoveLetter extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function receiver(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'receiver_id');
+    }
+
     public function scopePinnedFirst(Builder $query): Builder
     {
         return $query->orderByDesc('is_pinned')->latest('letter_date');
+    }
+
+    public function scopeUnreadFirst(Builder $query): Builder
+    {
+        return $query
+            ->orderByRaw('CASE WHEN read_at IS NULL THEN 0 ELSE 1 END')
+            ->latest('letter_date');
     }
 
     public function scopeSearch(Builder $query, ?string $search): Builder

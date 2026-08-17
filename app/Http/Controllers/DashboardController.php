@@ -30,6 +30,7 @@ class DashboardController extends Controller
         $activity = $this->dashboard->activity($user);
         $calendarDays = $this->dashboard->calendar($user);
         $anniversary = $this->dashboard->upcomingAnniversary($user);
+        $couple = $this->dashboard->coupleOverview($user);
 
         return view('dashboard', compact(
             'totalMemories',
@@ -44,6 +45,7 @@ class DashboardController extends Controller
             'activity',
             'calendarDays',
             'anniversary',
+            'couple',
         ));
     }
 }

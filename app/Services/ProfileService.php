@@ -21,7 +21,7 @@ class ProfileService
 
         try {
             $user->update([
-                'name' => $data['name'],
+                'name' => $data['name'] ?? $user->name,
                 'bio' => $data['bio'] ?? null,
                 'partner_name' => $data['partner_name'] ?? null,
                 'relationship_date' => $data['relationship_date'] ?? null,

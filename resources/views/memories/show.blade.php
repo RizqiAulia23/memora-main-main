@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en" data-theme="{{ $theme }}">
 <head>
   <meta charset="UTF-8" />
@@ -9,9 +9,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="{{ asset('css/base.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/memories.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/base.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/dashboard.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/memories.css') }}">
+  <link rel="stylesheet" href="{{ assetv('css/shared.css') }}">
 </head>
 <body>
 
@@ -28,7 +29,7 @@
         @include('partials.flash-alerts')
 
         <!-- Memory Detail -->
-        <section class="mem-detail reveal">
+        <section class="mem-detail reveal" data-gsap-reveal>
           <div class="mem-detail-media">
             <img src="{{ $memory->imageUrl() }}" alt="{{ $memory->title }}" />
           </div>
@@ -40,18 +41,41 @@
                 <h1 class="mem-detail-title">{{ $memory->title }}</h1>
               </div>
               <div class="mem-detail-actions">
-                <a href="{{ route('memories.edit', $memory) }}" class="btn btn-outline btn-sm">
-                  <i class="fas fa-pen"></i> Edit
-                </a>
-                <form method="POST" action="{{ route('memories.destroy', $memory) }}" onsubmit="return confirm('Delete this memory?');">
-                  @csrf
-                  @method('DELETE')
-                  <button type="submit" class="btn btn-sm mem-btn-danger">
-                    <i class="fas fa-trash"></i> Delete
-                  </button>
-                </form>
+                @if ($memory->user_id === auth()->id())
+                  <a href="{{ route('memories.share', $memory) }}" class="btn btn-outline btn-sm">
+                    <i class="fas fa-share-nodes"></i> Share
+                  </a>
+                  <a href="{{ route('memories.edit', $memory) }}" class="btn btn-outline btn-sm">
+                    <i class="fas fa-pen"></i> Edit
+                  </a>
+                  <form method="POST" action="{{ route('memories.destroy', $memory) }}" onsubmit="return confirm('Delete this memory?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-sm mem-btn-danger">
+                      <i class="fas fa-trash"></i> Delete
+                    </button>
+                  </form>
+                @endif
               </div>
             </div>
+
+            @if ($memory->user_id === auth()->id() && $memory->sharedWith->isNotEmpty())
+              <div class="shm-chips mem-share-row">
+                <span class="mem-share-label"><i class="fas fa-heart"></i> Shared with</span>
+                @foreach ($memory->sharedWith as $shared)
+                  <span class="shm-chip shm-chip-heart">
+                    {{ $shared->partner->name }}
+                    <form method="POST" action="{{ route('shared-memories.destroy', $shared) }}" class="shm-chip-form" onsubmit="return confirm('Unshare with {{ $shared->partner->name }}? The memory itself will not be deleted.');">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" class="shm-chip-x" aria-label="Unshare with {{ $shared->partner->name }}" title="Unshare">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </form>
+                  </span>
+                @endforeach
+              </div>
+            @endif
 
             <div class="mem-detail-description">
               <p>{!! nl2br(e($memory->description)) !!}</p>
@@ -75,7 +99,9 @@
 
   </div>
 
-  <script src="{{ asset('js/main.js') }}"></script>
-  <script src="{{ asset('js/dashboard.js') }}"></script>
+  @vite('resources/js/memorify-animations.js')
+  @vite('resources/js/memories-show-animations.js')
+  <script src="{{ assetv('js/main.js') }}"></script>
+  <script src="{{ assetv('js/dashboard.js') }}"></script>
 </body>
 </html>

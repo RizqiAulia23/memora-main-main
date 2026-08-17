@@ -1,6 +1,75 @@
 /* ============================
    Love Letters
    ============================ */
+.letter-section {
+  margin-bottom: 32px;
+}
+
+.letter-section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "Playfair Display", serif;
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--ink-900);
+  margin-bottom: 14px;
+}
+
+.letter-section-title i {
+  color: var(--pink-600);
+}
+
+.letter-card.unread {
+  border-color: var(--pink-200);
+  background: linear-gradient(135deg, var(--pink-50), #fff);
+}
+
+.letter-new-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: var(--radius-btn);
+  background: var(--pink-100);
+  color: var(--pink-700);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+}
+
+.letter-new-badge i {
+  font-size: 8px;
+}
+
+.letter-from {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: var(--radius-btn);
+  background: var(--pink-100);
+  color: var(--pink-700);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+[data-theme="dark"] .letter-section-title {
+  color: var(--dt-text);
+}
+
+[data-theme="dark"] .letter-card.unread {
+  background: linear-gradient(135deg, var(--dt-pink-deep), var(--dt-surface));
+  border-color: var(--pink-400);
+}
+
+[data-theme="dark"] .letter-new-badge,
+[data-theme="dark"] .letter-from {
+  background: var(--dt-pink-deep);
+  color: var(--pink-400);
+}
+
 .letter-list {
   display: flex;
   flex-direction: column;
@@ -435,4 +504,54 @@
   .letter-paper {
     padding: 28px 22px;
   }
+}
+
+/* ============================
+   Dark Mode Fixes
+   ============================ */
+[data-theme="dark"] .letter-mood-badge.happy,
+[data-theme="dark"] .letter-card-mood.happy,
+[data-theme="dark"] .letter-mood-badge.thoughtful,
+[data-theme="dark"] .letter-card-mood.thoughtful {
+  background: var(--dt-pink-deep);
+  color: var(--teal-500);
+}
+
+[data-theme="dark"] .letter-mood-badge.love,
+[data-theme="dark"] .letter-card-mood.love {
+  background: var(--dt-pink-deep);
+  color: var(--pink-400);
+}
+
+[data-theme="dark"] .letter-mood-badge.romantic,
+[data-theme="dark"] .letter-card-mood.romantic,
+[data-theme="dark"] .letter-mood-badge.missing,
+[data-theme="dark"] .letter-card-mood.missing {
+  background: var(--dt-pink-deep);
+  color: var(--purple-500);
+}
+
+[data-theme="dark"] .letter-mood-badge.nostalgic,
+[data-theme="dark"] .letter-card-mood.nostalgic {
+  background: var(--dt-pink-deep);
+  color: var(--peach-500);
+}
+
+[data-theme="dark"] .letter-mood-badge.grateful,
+[data-theme="dark"] .letter-card-mood.grateful {
+  background: var(--dt-pink-deep);
+  color: var(--green-500);
+}
+
+
+/* ============================
+   GSAP scroll reveals (Phase 4)
+   Neutralize the shared CSS reveal base for elements owned by GSAP so
+   there is no double animation. Content stays visible by default:
+   fully usable without JS, with reduced motion, or if an animation fails.
+   ============================ */
+.reveal[data-gsap-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: none;
 }

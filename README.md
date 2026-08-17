@@ -49,7 +49,7 @@ Built with Laravel 13, Blade templates, vanilla JavaScript, Tailwind CSS, and Vi
 ### Search
 
 - **Global search** — search across memories, photos, and love letters.
-- **Instant search** — live suggestions from the topbar as you type (debounced, throttled endpoint).
+- **Instant search** — live suggestions from the topbar as you type (debounced, throttled endpoint, stale responses ignored).
 - **Keyboard navigation** — arrow up/down to move through results, Enter to open, Escape to close.
 - **User-scoped results** — results are always filtered to the signed-in user.
 
@@ -90,7 +90,7 @@ Memorify follows straightforward, practical security practices:
 - **XSS sanitization** — love-letter content is passed through a sanitizer that strips `<script>`, inline event handlers, `javascript:` URLs, and dangerous CSS such as `url()`, before it is stored.
 - **Rate limiting** — login (10/min), registration (5/min), and instant search (30/min) endpoints are throttled.
 - **Password hashing** — passwords are stored using Laravel's default `hashed` cast (bcrypt).
-- **File cleanup** — deleting a memory removes its photo, replacing a photo deletes the old file, removing an avatar deletes the file, and deleting an account removes all related files.
+- **File cleanup** — deleting a memory removes its photo, replacing a photo deletes the old file, removing an avatar deletes the file, and deleting an account removes all related files. Files are deleted **only after** the database change succeeds, so a failed write never leaves a row pointing at a removed file.
 
 ---
 
@@ -186,6 +186,7 @@ php artisan serve
 - **Migrations**: run `php artisan migrate` to create all tables:
   - `users` (+ profile fields `avatar`, `bio`, `partner_name`, `relationship_date`, `location`, and `role`)
   - `memories`, `favorites`, `love_letters`, `user_settings`
+  - `memories` and `love_letters` are indexed by `(user_id, memory_date)` / `(user_id, letter_date)` so per-user listings and the timeline/calendar stay fast.
   - framework tables: `cache`, `cache_locks`, `jobs`, `job_batches`, `failed_jobs`, `sessions`, `password_reset_tokens`
 - **Seeding**: `php artisan db:seed --force` runs `AdminSeeder` and `DemoDataSeeder`. If demo data already exists, the seeders keep the existing data intact and never duplicate it.
 
@@ -222,7 +223,7 @@ npm run build                        # Build production frontend assets
 
 ## Testing
 
-**Current status:** 70 tests passed / 227 assertions · Pint clean.
+**Current status:** 87 tests passed / 290 assertions · Pint clean.
 
 Memorify ships with a feature/unit test suite covering:
 
@@ -292,12 +293,13 @@ The following variables are used by the app (see `.env.example` as the single so
 
 | Variable                     | Default                    | Purpose                                             |
 |------------------------------|----------------------------|-----------------------------------------------------|
-| `APP_NAME`                   | `Laravel`                  | Application name                                    |
+| `APP_NAME`                   | `Memorify`                 | Application name                                    |
 | `APP_ENV`                    | `local`                    | Environment (local/production)                     |
 | `APP_DEBUG`                  | `true`                     | Show/hide error details                              |
 | `APP_URL`                    | `http://localhost`       | Base URL used for generated links                   |
 | `APP_KEY`                    | _(generated)_              | Application encryption key (`php artisan key:generate`) |
 | `DB_CONNECTION`              | `sqlite`                   | Database driver (SQLite is the default)             |
+| `DB_BUSY_TIMEOUT`             | `5000`                    | SQLite lock wait (ms) before a busy DB fails        |
 | `SESSION_DRIVER`             | `database`                 | Session store (database-backed)                     |
 | `CACHE_STORE`                | `database`                 | Cache store used for rate limiting + stats caches   |
 | `QUEUE_CONNECTION`           | `database`                 | Queue job store (database-backed)                  |

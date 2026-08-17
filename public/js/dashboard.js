@@ -54,11 +54,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Favorite toggle (AJAX)
   document.querySelectorAll('[data-favorite-toggle]').forEach(function (btn) {
+    var busy = false;
     btn.addEventListener('click', function (e) {
       e.stopPropagation();
 
       var url = btn.getAttribute('data-url');
-      if (!url) return;
+      if (!url || busy) return;
+
+      busy = true;
+      btn.setAttribute('aria-busy', 'true');
 
       fetch(url, {
         method: 'POST',
@@ -80,11 +84,16 @@ document.addEventListener('DOMContentLoaded', function () {
           btn.classList.remove('pop');
           void btn.offsetWidth;
           btn.classList.add('pop');
+          btn.setAttribute('aria-pressed', wasFavorited ? 'true' : 'false');
           btn.setAttribute('aria-label', wasFavorited ? 'Remove from favorites' : 'Add to favorites');
           showToast(wasFavorited ? 'Added to favorites' : 'Removed from favorites', wasFavorited ? 'success' : 'info');
         })
         .catch(function () {
           showToast('Could not update favorites. Please try again.', 'error');
+        })
+        .finally(function () {
+          busy = false;
+          btn.removeAttribute('aria-busy');
         });
     });
   });
@@ -125,13 +134,17 @@ document.addEventListener('DOMContentLoaded', function () {
       resultsBox.innerHTML = '<div class="search-suggest-loading"><i class="fas fa-circle-o-notch fa-spin"></i> Searching&hellip;</div>';
       resultsBox.hidden = false;
       input.setAttribute('aria-expanded', 'true');
+      input.setAttribute('aria-busy', 'true');
     }
 
     function hideResults() {
       resultsBox.hidden = true;
       activeIndex = -1;
       input.setAttribute('aria-expanded', 'false');
+      input.removeAttribute('aria-busy');
     }
+
+    var searchRequestId = 0;
 
     input.addEventListener('input', function () {
       var q = input.value.trim();
@@ -145,6 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       showLoading();
       timer = setTimeout(function () {
+        var requestId = ++searchRequestId;
         fetch(endpoint + '/instant?q=' + encodeURIComponent(q), {
           headers: { 'X-Requested-With': 'XMLHttpRequest' }
         })
@@ -153,12 +167,15 @@ document.addEventListener('DOMContentLoaded', function () {
             return res.json();
           })
           .then(function (data) {
+            if (requestId !== searchRequestId) return;
             resultsBox.innerHTML = data.html;
             resultsBox.hidden = false;
             activeIndex = -1;
             input.setAttribute('aria-expanded', 'true');
+            input.removeAttribute('aria-busy');
           })
           .catch(function () {
+            if (requestId !== searchRequestId) return;
             hideResults();
             showToast('Search failed. Please try again.', 'error');
           });
